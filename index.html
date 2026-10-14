@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progression Briefing</title>
+<meta name="description" content="Every role track progression change: new unlocks, moved items, level and price changes, and the new XP curve.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Condensed:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0d0a; --panel:#15170f; --panel2:#1b1e14; --line:#2b2f21; --line2:#3a3f2c;
+  --olive:#6f7d3c; --olive-d:#3d4521; --amber:#e9a514; --amber-d:#7a5708;
+  --text:#dcd9c6; --muted:#8c8b76; --green:#86c64f; --red:#e2553d; --blue:#5fb0c9;
+  --mono:'Share Tech Mono',ui-monospace,monospace;
+  --stencil:'Black Ops One',Impact,sans-serif;
+  --body:'Barlow Condensed','Arial Narrow',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);font-family:var(--body);font-size:18px;line-height:1.4;
+  background-image:
+    linear-gradient(rgba(111,125,60,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(111,125,60,.05) 1px,transparent 1px),
+    radial-gradient(ellipse at top,rgba(233,165,20,.07),transparent 60%);
+  background-size:40px 40px,40px 40px,100% 100%;
+  min-height:100vh;
+}
+.hazard{height:12px;background:repeating-linear-gradient(-45deg,var(--amber) 0 14px,#111 14px 28px)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+
+/* HEADER */
+header{border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header .wrap{padding-top:44px;padding-bottom:36px;position:relative}
+.stamp{
+  position:absolute;right:16px;top:38px;font-family:var(--stencil);color:var(--red);
+  border:3px solid var(--red);padding:6px 14px;transform:rotate(8deg);opacity:.75;letter-spacing:2px;font-size:20px;
+}
+.kicker{font-family:var(--mono);color:var(--amber);letter-spacing:3px;font-size:14px;text-transform:uppercase}
+h1{font-family:var(--stencil);font-size:clamp(40px,8vw,84px);line-height:.95;letter-spacing:1px;margin:10px 0 14px;text-transform:uppercase}
+h1 span{color:var(--amber)}
+.lede{max-width:640px;color:var(--muted);font-size:20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:28px}
+.stat{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--amber);padding:12px 14px}
+.stat b{display:block;font-family:var(--stencil);font-size:32px;color:var(--text);font-weight:400}
+.stat small{font-family:var(--mono);color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:1px}
+
+/* SECTION TITLES */
+section{padding:44px 0 8px}
+.sec-h{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.sec-h h2{font-family:var(--stencil);font-weight:400;font-size:30px;text-transform:uppercase;letter-spacing:1px}
+.sec-h .idx{font-family:var(--mono);color:var(--bg);background:var(--amber);padding:2px 8px;font-size:14px}
+.sec-h::after{content:"";flex:1;height:1px;background:var(--line2)}
+
+/* XP TABLE */
+.xp{background:var(--panel);border:1px solid var(--line)}
+.xp-row{display:grid;grid-template-columns:80px 1fr 150px 84px;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
+.xp-row:last-child{border-bottom:0}
+.xp-head{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;background:var(--panel2)}
+.xp-lvl{font-family:var(--stencil);font-size:22px}
+.bars{display:flex;flex-direction:column;gap:4px}
+.bar{height:8px;background:var(--line);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;display:block}
+.bar.old i{background:#4a4a3c}
+.bar.new i{background:var(--amber)}
+.xp-num{font-family:var(--mono);font-size:14px;line-height:1.3}
+.xp-num s{color:var(--muted)}
+.xp-pct{font-family:var(--mono);color:var(--green);text-align:right;font-size:16px}
+.legend{display:flex;gap:18px;font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:10px}
+.legend span::before{content:"";display:inline-block;width:12px;height:8px;margin-right:6px;vertical-align:middle;background:#4a4a3c}
+.legend span.n::before{background:var(--amber)}
+
+/* TABS */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tab{
+  font-family:var(--stencil);font-size:17px;text-transform:uppercase;letter-spacing:1px;
+  background:var(--panel);color:var(--muted);border:1px solid var(--line2);padding:9px 14px;cursor:pointer;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+}
+.tab small{font-family:var(--mono);font-size:12px;margin-left:6px;opacity:.7}
+.tab:hover{color:var(--text);border-color:var(--olive)}
+.tab[aria-selected="true"]{background:var(--amber);color:#111;border-color:var(--amber)}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.chip{
+  font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:1px;
+  background:transparent;color:var(--muted);border:1px solid var(--line2);padding:6px 10px;cursor:pointer
+}
+.chip:hover{color:var(--text)}
+.chip[aria-pressed="true"]{color:var(--amber);border-color:var(--amber);background:rgba(233,165,20,.08)}
+.search{
+  margin-left:auto;background:var(--panel);border:1px solid var(--line2);color:var(--text);
+  font-family:var(--mono);font-size:15px;padding:7px 10px;min-width:220px;outline:none
+}
+.search:focus{border-color:var(--amber)}
+
+/* ROLE PANEL */
+.role-brief{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--olive);padding:14px 16px;margin-bottom:16px;color:var(--text)}
+.role-brief h3{font-family:var(--stencil);font-weight:400;font-size:24px;text-transform:uppercase;margin-bottom:4px}
+.role-brief p{color:var(--muted)}
+
+.list{list-style:none;border:1px solid var(--line);background:var(--panel)}
+.band{
+  font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;
+  padding:6px 16px;background:var(--panel2);border-bottom:1px solid var(--line);border-top:1px solid var(--line)
+}
+.list > .band:first-child{border-top:0}
+.row{display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row:hover{background:rgba(111,125,60,.07)}
+.lvl{
+  width:64px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:1px solid var(--line2);background:var(--bg)
+}
+.lvl-k{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px}
+.lvl-n{font-family:var(--stencil);font-size:24px;line-height:1}
+.lvl.def .lvl-n{font-size:15px;color:var(--green)}
+.lvl.unk .lvl-n{color:var(--muted)}
+.name{font-weight:600;font-size:19px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:1px;padding:2px 6px;text-transform:uppercase;border:1px solid}
+.tag-n{color:var(--amber);border-color:var(--amber)}
+.tag-m{color:var(--blue);border-color:var(--blue)}
+.tag-c{color:var(--muted);border-color:var(--line2)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:3px}
+.up{color:var(--green)} .down{color:var(--red)}
+.price{font-family:var(--mono);font-size:16px;text-align:right;white-space:nowrap}
+.empty{padding:28px 16px;text-align:center;font-family:var(--mono);color:var(--muted)}
+
+.out{margin-top:14px;border:1px dashed var(--line2);padding:12px 16px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.out b{color:var(--red);font-weight:400;letter-spacing:1px}
+.out ul{list-style:none;margin-top:6px;display:flex;flex-direction:column;gap:3px}
+.notes{margin-top:14px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.notes li{list-style:none}
+.notes li::before{content:"// ";color:var(--amber)}
+
+footer{margin-top:56px;border-top:1px solid var(--line);padding:22px 0 40px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+
+@media (max-width:640px){
+  body{font-size:17px}
+  .stamp{display:none}
+  .xp-row{grid-template-columns:56px 1fr 64px;gap:10px}
+  .xp-row .bars{display:none}
+  .xp-head .bars-h{display:none}
+  .row{grid-template-columns:60px 1fr;gap:10px}
+  .lvl{width:56px}
+  .price{grid-column:2;text-align:left;font-size:14px;color:var(--amber)}
+  .search{margin-left:0;width:100%;min-width:0}
+}
+</style>
+</head>
+<body>
+<div class="hazard"></div>
+
+<header>
+  <div class="wrap">
+    <div class="stamp">CLASSIFIED</div>
+    <div class="kicker">// Field Briefing · Role Track Overhaul</div>
+    <h1>Progression <span>Changes</span></h1>
+    <p class="lede">Every role track unlock re-sorted by the level you can get it now. The list covers new gear, items moved between tracks, level and price shifts, and the faster XP curve.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="xp">
+    <div class="sec-h"><span class="idx">01</span><h2>Role Track XP</h2></div>
+    <p class="lede" style="margin-bottom:16px">Levels 10–20 were the grind wall. Reaching level 20 now takes less than half the playtime it did in Season 1.</p>
+    <div class="xp" id="xpTable"></div>
+    <div class="legend"><span>Season 1</span><span class="n">Now</span></div>
+  </section>
+
+  <section id="tracks">
+    <div class="sec-h"><span class="idx">02</span><h2>Role Track Unlocks</h2></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="toolbar" id="toolbar">
+      <button class="chip" data-f="all" aria-pressed="true">All</button>
+      <button class="chip" data-f="n">New</button>
+      <button class="chip" data-f="m">Moved in</button>
+      <button class="chip" data-f="earlier">Earlier</button>
+      <button class="chip" data-f="later">Later</button>
+      <button class="chip" data-f="price">Price change</button>
+      <input class="search" id="search" type="search" placeholder="Search gear…" aria-label="Search gear">
+    </div>
+    <div id="panel"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">Unofficial fan reference compiled from the official progression patch notes. Items with “—” keep their previous level, since only their price changed.</div>
+</footer>
+<div class="hazard"></div>
+
+<script>
+/* ===== DATA =====
+   t: n = new unlock, m = moved into track, c = changed
+   l: new level (0 = unlocked by default, null = level unchanged / not listed)
+   o: old level (0 = previously unlocked by default)
+   p / op: new / old price in $k (0 = free)
+*/
+const XP = [
+  [10,35000,25000,29],[15,110000,54750,50],[20,250000,111500,55],
+  [25,365000,206600,43],[30,500000,318200,36],[35,750000,525000,30],
+  [40,975000,712500,27],[45,1225000,920850,25],[50,1500000,1150000,23]
+];
+
+const ROLES = [
+{ id:"wardog", name:"WARDOG",
+  brief:"Supply pallets now have to be unlocked, the Judge and GGX 17 swap places, and WARDOG picks up two optics from Assault plus the Gold Market.",
+  items:[
+    {n:"Compact P-1 Red Dot",t:"n",l:21,p:12.5},
+    {n:"Music Tape: “Blue (Da Ba Dee)” – Eiffel 65",t:"n",l:29,p:25,note:"Lonestar only"},
+    {n:"Gold Market",t:"n",l:35,p:150},
+    {n:"Tricon 1.5x Compact Prism Scope",t:"m",l:26,from:"Assault LVL 12"},
+    {n:"Spitfire 3X",t:"m",l:31,from:"Assault LVL 26"},
+    {n:"Mechanical Supply Pallet",t:"c",o:0,l:5,p:10},
+    {n:"Ammo Supply Pallet",t:"c",o:0,l:9,p:25},
+    {n:"Fuel Supply Pallet",t:"c",o:0,l:16,p:50},
+    {n:"Judge",t:"c",o:18,l:1,op:15,p:5},
+    {n:"GGX 17",t:"c",o:1,l:18,op:5,p:15},
+    {n:"Deagle",t:"c",o:85,l:65},
+    {n:"GGX 18",t:"c",o:70,l:85,op:50,p:125},
+    {n:"Kobra Reflex",t:"c",o:21,l:4},
+    {n:"Compact T-2 Red Dot",t:"c",o:4,l:17},
+    {n:"Sport Parachute",t:"c",o:35,l:34},
+    {n:"12g Rifled Slug",t:"c",o:41,l:36},
+    {n:"7.62x39mm Armor Piercing (AP)",t:"c",o:63,l:60},
+    {n:".308 Win Flesh Damage (HP)",t:"c",o:65,l:63},
+    {n:"Level 3 Helmet & Armor",t:"c",o:60,l:70},
+    {n:"5.45x39mm Flesh Damage (HP)",t:"c",o:16,l:6},
+    {n:"9x19mm Flesh Damage (HP)",t:"c",o:6,l:10},
+    {n:"5.56mm Flesh Damage (HP)",t:"c",o:10,l:13},
+    {n:"5.56mm Armor Piercing (AP)",t:"c",o:83,l:84},
+    {n:"5.45x39mm Armor Piercing (AP)",t:"c",o:93,l:90}
+  ],
+  out:["SPH-2 → Driver LVL 31","2.5x Combat Optic → Assault LVL 17","3x Tactical Prism Scope → Assault LVL 33"]
+},
+{ id:"assault", name:"Assault",
+  brief:"Assault is now the base-breaker. C4 moves over from Support and the new Molotov Cocktail joins it. The TCX-SPR takes the M4's old LVL 20 slot.",
+  items:[
+    {n:"Molotov Cocktail",t:"n",l:13,p:25},
+    {n:"TCX-SPR + TCX-SPR 28 RND Magazine",t:"n",l:20,p:100},
+    {n:"Cross Rifle Muzzle Brake (TCX-SPR)",t:"n",l:32,p:35},
+    {n:"Clutch Lok Muzzle Brake (TCX-SPR)",t:"n",l:37,p:37.5},
+    {n:"SRD762TI-QD Suppressor (TCX-SPR)",t:"n",l:40,p:40},
+    {n:"Remote Detonator + C4 Charge",t:"m",l:4,from:"Support LVL 2"},
+    {n:"2.5x Combat Optic",t:"m",l:17,from:"WARDOG LVL 26"},
+    {n:"Four Reticle Reflex",t:"m",l:22,from:"Medic LVL 6"},
+    {n:"3x Tactical Prism Scope",t:"m",l:33,from:"WARDOG LVL 31"},
+    {n:"RVG Vertical Foregrip",t:"m",l:38,from:"Medic LVL 16",op:10,p:25},
+    {n:"Spectr 4x",t:"m",l:43,from:"Support LVL 21"},
+    {n:"AK74 + AK74 30 RND Magazine",t:"c",o:3,l:0,op:10,p:0},
+    {n:"T-21",t:"c",o:0,l:3,p:10},
+    {n:"STANAG 30 RND Magazine",t:"c",o:6,l:3,op:10,p:0,note:"comes with the T-21"},
+    {n:"M4",t:"c",o:20,l:28,op:100,p:150},
+    {n:"FAL",t:"c",l:null,op:200,p:250},
+    {n:"AK74 75 RND Drum Magazine",t:"c",o:40,l:36},
+    {n:"Birdcage Flash Hider",t:"c",o:16,l:2,op:15,p:5},
+    {n:"Hexagon Brake",t:"c",o:2,l:5,op:5,p:12.5},
+    {n:"3 Prong Flash Hider",t:"c",o:24,l:8,op:20,p:7.5},
+    {n:"CQ-2x Prism Combat Scope",t:"c",o:17,l:12},
+    {n:"CQR Tactical Front Rail Grip",t:"c",o:38,l:14,op:25,p:10},
+    {n:"CQB 74 Brake",t:"c",o:8,l:16,op:12.5,p:15},
+    {n:"PBS-4 Suppressor",t:"c",o:27,l:19},
+    {n:"TopComp Brake",t:"c",o:5,l:21,op:7.5,p:20},
+    {n:"RC-556 Suppressor",t:"c",o:29,l:24},
+    {n:"OKP 7 Reflex",t:"c",o:33,l:26},
+    {n:"TGP-A Suppressor 5.45",t:"c",o:19,l:27},
+    {n:"AR Multi-Caliber Suppressor",t:"c",o:21,l:29,op:20,p:22.5}
+  ],
+  out:["Tricon 1.5x Compact Prism Scope → WARDOG LVL 26","Spitfire 3X → WARDOG LVL 31","Holographic Sight → Medic LVL 6","AFG Angled Foregrip → Medic LVL 11","4x Combat Prism Scope with Reflex → Support LVL 21"]
+},
+{ id:"medic", name:"Medic",
+  brief:"The Medical Bag drops from LVL 24 to LVL 14. Medic also gets the biggest weapon and attachment reshuffle of any track, and the MP5 now comes at LVL 4.",
+  items:[
+    {n:"PP-19 Bizon + PP-19 Bizon 53 RND Magazine",t:"n",l:0,p:0},
+    {n:"AMP-9 + AMP-9 15 RND Magazine",t:"n",l:20,p:75,note:"AMP-9 was default; 15 RND mag was LVL 3"},
+    {n:"AMP-9 20 RND Magazine",t:"n",l:25,p:12.5,note:"no longer default"},
+    {n:"Holographic Sight",t:"m",l:6,from:"Assault LVL 22"},
+    {n:"AFG Angled Foregrip",t:"m",l:11,from:"Assault LVL 14"},
+    {n:"MP5",t:"c",o:15,l:4,op:75,p:25},
+    {n:"Medical Bag",t:"c",o:24,l:14,op:75,p:50},
+    {n:"PP-19 Vityaz",t:"c",o:4,l:15,op:25,p:50},
+    {n:"Defibrillator",t:"c",o:11,l:22,op:50,p:110},
+    {n:"Super-45",t:"c",l:null,op:150,p:200},
+    {n:"Individual First Aid Kit",t:"c",o:9,l:10},
+    {n:"Adrenaline Pen",t:"c",o:14,l:16},
+    {n:"M18 Smoke Grenade: Black",t:"c",o:21,l:23},
+    {n:"Eclipse Flash Hider",t:"c",o:26,l:1,op:22.5,p:7.5},
+    {n:"MP5 30 RND Magazine",t:"c",o:25,l:8,op:25,p:10},
+    {n:"Ballista Brake",t:"c",o:13,l:12},
+    {n:"QD-5 Suppressor",t:"c",o:18,l:13,op:17.5,p:12.5},
+    {n:"PP-19 Vityaz 10 RND Magazine",t:"c",o:7,l:17,op:7.5,p:10},
+    {n:"PP-19 Vityaz Flash Hider",t:"c",o:22,l:18,op:20,p:17.5},
+    {n:"Vektor Frenix-X Micro Reflex Sight",t:"c",o:28,l:19},
+    {n:"PP-19 50 RND Vityaz Drum Magazine",t:"c",o:29,l:21,op:50,p:15},
+    {n:"PP-19-01 Vityaz 9x19 Suppressor",t:"c",o:43,l:24,op:45,p:20},
+    {n:"AMP-9 Tactical Flash Hider",t:"c",o:12,l:26,op:10,p:45},
+    {n:"AMP-9 9x19 Suppressor",t:"c",o:30,l:27},
+    {n:"Dual Port Brake",t:"c",o:1,l:28,op:7.5,p:22.5},
+    {n:"MP5 50 RND Drum Magazine",t:"c",o:45,l:29,op:75,p:50},
+    {n:"AMP-9 30 RND Magazine",t:"c",o:10,l:30,op:10,p:50},
+    {n:"Super-45 Flash Hider",t:"c",o:40,l:36},
+    {n:"Ghost LITE Muzzle Brake",t:"c",o:36,l:40},
+    {n:"Super-45 30 RND Magazine",t:"c",o:38,l:43},
+    {n:"AMP-9 50 RND Drum Magazine",t:"c",o:20,l:45,op:15,p:75}
+  ],
+  out:["Four Reticle Reflex → Assault LVL 22","RVG Vertical Foregrip → Assault LVL 38"]
+},
+{ id:"recon", name:"Recon",
+  brief:"Recon gets the new M14 and a full set of attachments for it. Most scopes and muzzle devices have swapped levels.",
+  items:[
+    {n:"PU 91/30 Scope (Mosin)",t:"n",l:10,p:12.5},
+    {n:"M14 + M14 10 RND Magazine",t:"n",l:25,p:100},
+    {n:"Leatherwood ART II (M14)",t:"n",l:27,p:35},
+    {n:"M14 Bipod",t:"n",l:29,p:25},
+    {n:"M14 20 RND Magazine",t:"n",l:31,p:27.5},
+    {n:"M14 30 RND Magazine",t:"n",l:36,p:50},
+    {n:".30 Cal SS Phosphate Muzzle Brake (M14)",t:"n",l:37,p:22.5},
+    {n:".30 Cal Steel Black Flash Hider (M14)",t:"n",l:42,p:27.5},
+    {n:"BMR-308",t:"c",o:30,l:20},
+    {n:"SV98",t:"c",o:19,l:18},
+    {n:"MK22",t:"c",o:25,l:30},
+    {n:"Ghillie Headwear & Body Suit",t:"c",o:24,l:26},
+    {n:"Ghillie Headwear & Body Suit (Dead)",t:"c",o:27,l:41},
+    {n:"Compound Bow",t:"c",o:17,l:16,op:75,p:150},
+    {n:"Claymore",t:"c",o:22,l:23,op:50,p:90},
+    {n:"Range Finder",t:"c",l:null,op:15,p:25},
+    {n:"SVD 10 RND Magazine",t:"c",o:16,l:17},
+    {n:"Deadeye Flash Hider",t:"c",o:9,l:6},
+    {n:"DTK-1 Brake",t:"c",o:6,l:9},
+    {n:"6-10x Scope MOA",t:"c",o:26,l:19},
+    {n:"SV98 Bipod",t:"c",l:null,op:30,p:17.5},
+    {n:"SRVV Brake",t:"c",o:20,l:22},
+    {n:"BMR-308 Flash Hider",t:"c",o:31,l:24,op:25,p:50},
+    {n:"6-10x Scope MRAD",t:"c",o:18,l:28},
+    {n:"BMR-308 Suppressor",t:"c",l:null,op:27.5,p:25},
+    {n:"Constrictor Brake",t:"c",o:23,l:34},
+    {n:"AMR 50 Cal Muzzle Brake",t:"c",o:48,l:38},
+    {n:"6x Marksman Scope + Reflex",t:"c",o:34,l:43,op:35,p:75},
+    {n:"Slicktap Brake",t:"c",o:28,l:44},
+    {n:"Frontier 2.5x-10x Precision Scope",t:"c",o:43,l:47},
+    {n:".50 Cal Heavy Suppressor",t:"c",o:37,l:48},
+    {n:"Three Port Brake",t:"c",o:36,l:49}
+  ],
+  out:[]
+},
+{ id:"support", name:"Support",
+  brief:"Support gets the new Evo-3 Ultra. The PKM now unlocks at LVL 15 instead of 30, and the M249 moves from LVL 15 to LVL 20.",
+  items:[
+    {n:"Evo-3 Ultra + Evolys 50 RND Box",t:"n",l:30,p:200},
+    {n:"Evolys Bipod (Evo-3 Ultra)",t:"n",l:33,p:75},
+    {n:"SL7i-BL Suppressor (Evo-3 Ultra)",t:"n",l:40,p:35},
+    {n:"4x Combat Prism Scope with Reflex",t:"m",l:21,from:"Assault LVL 43"},
+    {n:"PKM",t:"c",o:30,l:15,op:150,p:100},
+    {n:"M249",t:"c",o:15,l:20,op:100,p:150},
+    {n:"MAAWS",t:"c",o:20,l:18,op:125,p:100},
+    {n:"MGL-40",t:"c",l:null,op:200,p:250},
+    {n:"Heavy Drill",t:"c",l:null,op:25,p:50},
+    {n:"9K333 Verba",t:"c",o:16,l:14},
+    {n:"Improved Cylinder Choke",t:"c",o:14,l:13},
+    {n:"Full Choke",t:"c",o:19,l:16},
+    {n:"PKM Bipod",t:"c",o:33,l:17,op:35,p:25},
+    {n:"Slotted Flash Hider",t:"c",o:26,l:19},
+    {n:"M249 Bipod",t:"c",o:18,l:24,op:15,p:50},
+    {n:"M249 200 RND Box",t:"c",o:23,l:26},
+    {n:"Tread Brake",t:"c",o:17,l:27},
+    {n:"12 Gauge Suppressor",t:"c",o:40,l:32}
+  ],
+  out:["Remote Detonator + C4 Charge → Assault LVL 4","Spectr 4x → Assault LVL 43"]
+},
+{ id:"pilot", name:"Pilot",
+  brief:"The Little Bird AH-6M [Miniguns] was too strong for how early it unlocked, so it now comes later and costs more.",
+  items:[
+    {n:"Little Bird AH-6M [Miniguns]",t:"c",o:4,l:8,op:50,p:125},
+    {n:"Z20 Lakota [Miniguns]",t:"c",l:null,op:75,p:85},
+    {n:"Havoc",t:"c",l:null,op:500,p:650}
+  ],
+  notes:["Music tapes reshuffled between the Driver and Pilot tracks"],
+  out:[]
+},
+{ id:"driver", name:"Driver",
+  brief:"More armed vehicles before the L2A6: the Wolf-110 [M2 Browning], the T-72B3 and the Flakpanzer Gepard. The SPH-2 drops from WARDOG LVL 90 to Driver LVL 31.",
+  items:[
+    {n:"Wolf-110",t:"n",l:8,p:50},
+    {n:"Wolf-110 [M2 Browning]",t:"n",l:16,p:125},
+    {n:"T-72B3",t:"n",l:20,p:250},
+    {n:"Flakpanzer Gepard",t:"n",l:25,p:300},
+    {n:"Music Tape: “Dyshat'” – Baryber",t:"n",l:33,p:25},
+    {n:"SPH-2",t:"m",l:31,from:"WARDOG LVL 90",op:500,p:350},
+    {n:"Dune Buggy",t:"c",o:8,l:9},
+    {n:"Humvee",t:"c",o:15,l:14,op:25,p:75},
+    {n:"Ural Defender",t:"c",o:18,l:15},
+    {n:"Large Crate",t:"c",o:16,l:17},
+    {n:"Ural Defender [M249]",t:"c",o:25,l:22,op:125,p:100},
+    {n:"Humvee [M249]",t:"c",o:20,l:24}
+  ],
+  notes:["Music tapes reshuffled between the Driver and Pilot tracks"],
+  out:[]
+}
+];
+
+/* ===== HELPERS ===== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money = v => v === 0 ? "Free" : "$" + v + "k";
+const lvlTxt = v => v === 0 ? "Default" : "LVL " + v;
+const num = n => n.toLocaleString("en-US");
+
+function dir(it){
+  if (it.t !== "c" || it.o == null || it.l == null) return null;
+  if (it.l < it.o) return "earlier";
+  if (it.l > it.o) return "later";
+  return null;
+}
+
+/* ===== HERO STATS ===== */
+(function(){
+  const all = ROLES.flatMap(r => r.items);
+  const s = [
+    [all.length, "Changes"],
+    [all.filter(i => i.t === "n").length, "New unlocks"],
+    [all.filter(i => dir(i) === "earlier").length, "Unlock earlier"],
+    ["−55%", "XP to LVL 20"]
+  ];
+  $("#stats").innerHTML = s.map(([b, t]) => `<div class="stat"><b>${b}</b><small>${t}</small></div>`).join("");
+})();
+
+/* ===== XP TABLE ===== */
+(function(){
+  const max = 1500000;
+  let h = `<div class="xp-row xp-head"><div>Level</div><div class="bars-h">Total XP</div><div>Old → New</div><div style="text-align:right">Faster</div></div>`;
+  for (const [lv, o, n, pct] of XP){
+    h += `<div class="xp-row">
+      <div class="xp-lvl">${lv}</div>
+      <div class="bars">
+        <div class="bar old"><i style="width:${o/max*100}%"></i></div>
+        <div class="bar new"><i style="width:${n/max*100}%"></i></div>
+      </div>
+      <div class="xp-num"><s>${num(o)}</s><br>${num(n)}</div>
+      <div class="xp-pct">−${pct}%</div>
+    </div>`;
+  }
+  $("#xpTable").innerHTML = h;
+})();
+
+/* ===== TRACKS ===== */
+let current = ROLES[0].id, filter = "all", query = "";
+
+function renderTabs(){
+  $("#tabs").innerHTML = ROLES.map(r =>
+    `<button class="tab" role="tab" data-id="${r.id}" aria-selected="${r.id===current}">${esc(r.name)}<small>${r.items.length}</small></button>`
+  ).join("");
+}
+
+function rowHTML(it){
+  const d = dir(it);
+  const tagTxt = {n:"New", m:"Moved in", c:"Changed"}[it.t];
+  const meta = [];
+  if (it.t === "m") meta.push(`From ${esc(it.from)}`);
+  if (it.t === "c" && it.o != null && it.l != null){
+    const diff = Math.abs(it.l - it.o);
+    let dTxt = "";
+    if (it.o === 0) dTxt = `<span class="down">▲ no longer default</span>`;
+    else if (it.l === 0) dTxt = `<span class="up">▼ now default</span>`;
+    else if (d) dTxt = `<span class="${d==="earlier"?"up":"down"}">${d==="earlier"?"▼":"▲"} ${diff} ${d}</span>`;
+    meta.push(`${lvlTxt(it.o)} → ${lvlTxt(it.l)}`, dTxt);
+  }
+  if (it.t === "c" && it.l == null) meta.push("Level unchanged");
+  if (it.op != null){
+    const cls = it.p < it.op ? "up" : "down";
+    meta.push(`<span class="${cls}">${money(it.op)} → ${money(it.p)}</span>`);
+  }
+  if (it.note) meta.push(esc(it.note));
+
+  const lvlCls = it.l === 0 ? "def" : it.l == null ? "unk" : "";
+  const lvlN = it.l === 0 ? "DEF" : it.l == null ? "—" : it.l;
+  return `<li class="row">
+    <div class="lvl ${lvlCls}"><span class="lvl-k">LVL</span><span class="lvl-n">${lvlN}</span></div>
+    <div>
+      <div class="name">${esc(it.n)} <span class="tag tag-${it.t}">${tagTxt}</span></div>
+      ${meta.length ? `<div class="meta">${meta.filter(Boolean).map(m=>`<span>${m}</span>`).join("")}</div>` : ""}
+    </div>
+    <div class="price">${it.p != null ? money(it.p) : ""}</div>
+  </li>`;
+}
+
+function matches(it){
+  if (query && !it.n.toLowerCase().includes(query)) return false;
+  if (filter === "all") return true;
+  if (filter === "n" || filter === "m") return it.t === filter;
+  if (filter === "price") return it.op != null;
+  return dir(it) === filter;
+}
+
+function renderPanel(){
+  const r = ROLES.find(x => x.id === current);
+  const items = r.items.filter(matches).sort((a, b) => {
+    const A = a.l == null ? 1e9 : a.l, B = b.l == null ? 1e9 : b.l;
+    return A - B || a.n.localeCompare(b.n);
+  });
+
+  let list = "", band = null;
+  for (const it of items){
+    const b = it.l == null ? "Level unchanged · price only"
+            : it.l === 0 ? "Unlocked by default"
+            : `LVL ${Math.floor(it.l/10)*10 || 1}–${Math.floor(it.l/10)*10 + 9}`;
+    if (b !== band){ list += `<li class="band">${b}</li>`; band = b; }
+    list += rowHTML(it);
+  }
+
+  $("#panel").innerHTML = `
+    <div class="role-brief"><h3>${esc(r.name)} Track</h3><p>${esc(r.brief)}</p></div>
+    <ul class="list">${list || `<li class="empty">No matching changes in this track.</li>`}</ul>
+    ${r.out && r.out.length ? `<div class="out"><b>MOVED OUT OF ${esc(r.name.toUpperCase())}</b><ul>${r.out.map(o=>`<li>${esc(o)}</li>`).join("")}</ul></div>` : ""}
+    ${r.notes ? `<ul class="notes">${r.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>` : ""}
+  `;
+}
+
+function select(id){
+  if (!ROLES.some(r => r.id === id)) id = ROLES[0].id;
+  current = id;
+  renderTabs(); renderPanel();
+  if (location.hash.slice(1) !== id) history.replaceState(null, "", "#" + id);
+}
+
+$("#tabs").addEventListener("click", e => {
+  const b = e.target.closest(".tab"); if (b) select(b.dataset.id);
+});
+$("#toolbar").addEventListener("click", e => {
+  const c = e.target.closest(".chip"); if (!c) return;
+  filter = c.dataset.f;
+  document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", x === c));
+  renderPanel();
+});
+$("#search").addEventListener("input", e => { query = e.target.value.trim().toLowerCase(); renderPanel(); });
+window.addEventListener("hashchange", () => select(location.hash.slice(1)));
+
+select(location.hash.slice(1) || ROLES[0].id);
+</script>
+</body>
+</html>
