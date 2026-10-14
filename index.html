@@ -3,22 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Progression Briefing</title>
-<meta name="description" content="Every role track progression change: new unlocks, moved items, level and price changes, and the new XP curve.">
+<title>Season 2 Briefing</title>
+<meta name="description" content="WARDOGS Season 2 patch notes, organised: new weapons and vehicles, combat balance, building, rewards, vendor prices and every role track unlock change.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Condensed:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0c0d0a; --panel:#15170f; --panel2:#1b1e14; --line:#2b2f21; --line2:#3a3f2c;
-  --olive:#6f7d3c; --olive-d:#3d4521; --amber:#e9a514; --amber-d:#7a5708;
-  --text:#dcd9c6; --muted:#8c8b76; --green:#86c64f; --red:#e2553d; --blue:#5fb0c9;
+  --olive:#6f7d3c; --amber:#e9a514; --text:#dcd9c6; --muted:#8c8b76;
+  --green:#86c64f; --red:#e2553d; --blue:#5fb0c9;
   --mono:'Share Tech Mono',ui-monospace,monospace;
   --stencil:'Black Ops One',Impact,sans-serif;
   --body:'Barlow Condensed','Arial Narrow',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
 body{
   background:var(--bg);color:var(--text);font-family:var(--body);font-size:18px;line-height:1.4;
   background-image:
@@ -26,35 +27,105 @@ body{
     linear-gradient(90deg,rgba(111,125,60,.05) 1px,transparent 1px),
     radial-gradient(ellipse at top,rgba(233,165,20,.07),transparent 60%);
   background-size:40px 40px,40px 40px,100% 100%;
-  min-height:100vh;
+  min-height:100vh;overflow-x:hidden;
 }
 .hazard{height:12px;background:repeating-linear-gradient(-45deg,var(--amber) 0 14px,#111 14px 28px)}
-.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+.wrap{max-width:1140px;margin:0 auto;padding:0 16px}
+b,strong{font-weight:600;color:var(--text)}
 
 /* HEADER */
 header{border-bottom:1px solid var(--line);position:relative;overflow:hidden}
 header .wrap{padding-top:44px;padding-bottom:36px;position:relative}
-.stamp{
-  position:absolute;right:16px;top:38px;font-family:var(--stencil);color:var(--red);
-  border:3px solid var(--red);padding:6px 14px;transform:rotate(8deg);opacity:.75;letter-spacing:2px;font-size:20px;
-}
+.stamp{position:absolute;right:16px;top:38px;font-family:var(--stencil);color:var(--red);border:3px solid var(--red);padding:6px 14px;transform:rotate(8deg);opacity:.75;letter-spacing:2px;font-size:20px}
 .kicker{font-family:var(--mono);color:var(--amber);letter-spacing:3px;font-size:14px;text-transform:uppercase}
-h1{font-family:var(--stencil);font-size:clamp(40px,8vw,84px);line-height:.95;letter-spacing:1px;margin:10px 0 14px;text-transform:uppercase}
+h1{font-family:var(--stencil);font-weight:400;font-size:clamp(40px,8vw,84px);line-height:.95;letter-spacing:1px;margin:10px 0 14px;text-transform:uppercase}
 h1 span{color:var(--amber)}
-.lede{max-width:640px;color:var(--muted);font-size:20px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:28px}
+.lede{max-width:680px;color:var(--muted);font-size:20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:28px}
 .stat{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--amber);padding:12px 14px}
-.stat b{display:block;font-family:var(--stencil);font-size:32px;color:var(--text);font-weight:400}
-.stat small{font-family:var(--mono);color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:1px}
+.stat b{display:block;font-family:var(--stencil);font-size:30px;font-weight:400}
+.stat small{font-family:var(--mono);color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px}
 
-/* SECTION TITLES */
-section{padding:44px 0 8px}
-.sec-h{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+/* NAV */
+nav{position:sticky;top:0;z-index:20;background:rgba(12,13,10,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line2)}
+nav .wrap{display:flex;align-items:center;gap:10px;height:56px}
+.links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+.links::-webkit-scrollbar{display:none}
+.links a{font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);text-decoration:none;padding:7px 9px;white-space:nowrap;border-bottom:2px solid transparent}
+.links a:hover{color:var(--text)}
+.links a.on{color:var(--amber);border-bottom-color:var(--amber)}
+.search{background:var(--panel);border:1px solid var(--line2);color:var(--text);font-family:var(--mono);font-size:15px;padding:7px 10px;width:220px;outline:none}
+.search:focus{border-color:var(--amber)}
+.hits{font-family:var(--mono);font-size:12px;color:var(--amber);white-space:nowrap}
+
+/* SECTIONS */
+section{padding:48px 0 4px}
+.sec-h{display:flex;align-items:center;gap:14px;margin-bottom:10px}
 .sec-h h2{font-family:var(--stencil);font-weight:400;font-size:30px;text-transform:uppercase;letter-spacing:1px}
 .sec-h .idx{font-family:var(--mono);color:var(--bg);background:var(--amber);padding:2px 8px;font-size:14px}
 .sec-h::after{content:"";flex:1;height:1px;background:var(--line2)}
+.sec-lede{color:var(--muted);max-width:760px;margin-bottom:18px}
 
-/* XP TABLE */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.grid.wide{grid-template-columns:repeat(auto-fit,minmax(440px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);padding:16px;min-width:0}
+.card.span{grid-column:1/-1}
+.card h3{font-family:var(--stencil);font-weight:400;font-size:20px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card h4{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;margin:14px 0 6px}
+.card p{color:var(--muted);margin-bottom:8px}
+.card p:last-child{margin-bottom:0}
+.card ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.card ul li{padding-left:18px;position:relative}
+.card ul li::before{content:"▸";position:absolute;left:0;color:var(--olive)}
+.callout{border-left:3px solid var(--amber);background:rgba(233,165,20,.07);padding:8px 12px;color:var(--text);font-size:17px;margin-top:10px}
+.callout.red{border-color:var(--red);background:rgba(226,85,61,.07)}
+
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:1px;padding:2px 6px;text-transform:uppercase;border:1px solid;font-weight:400;white-space:nowrap}
+.tag-n{color:var(--amber);border-color:var(--amber)}
+.tag-m{color:var(--blue);border-color:var(--blue)}
+.tag-c{color:var(--muted);border-color:var(--line2)}
+.tag-r{color:var(--red);border-color:var(--red)}
+.up{color:var(--green)} .down{color:var(--red)} .neu{color:var(--amber)}
+
+/* FEATURE CARDS */
+.feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.feat{background:var(--bg);border:1px solid var(--line2);padding:12px 14px;position:relative;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+.feat::after{content:"";position:absolute;top:0;right:0;width:14px;height:14px;background:var(--amber)}
+.feat .k{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:2px;text-transform:uppercase}
+.feat .nm{font-family:var(--stencil);font-size:22px;line-height:1.1;margin:4px 0}
+.feat .d{color:var(--muted);font-size:16px}
+.feat .px{font-family:var(--mono);font-size:13px;color:var(--text);margin-top:8px;display:flex;gap:12px;flex-wrap:wrap}
+.feat .px span{color:var(--muted)}
+
+/* TABLES */
+.tw{overflow-x:auto}
+table.t{width:100%;border-collapse:collapse;font-size:17px}
+table.t th{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:400;padding:6px 8px;border-bottom:1px solid var(--line2)}
+table.t td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.t tr:last-child td{border-bottom:0}
+table.t td.n{font-family:var(--mono);font-size:14px;white-space:nowrap;text-align:right}
+table.t th.n{text-align:right}
+table.t td.o{color:var(--muted)}
+table.t td .note{display:block;font-family:var(--mono);font-size:12px;color:var(--muted)}
+table.t tbody tr:hover{background:rgba(111,125,60,.07)}
+
+/* CALIBRE BARS */
+.cal{display:grid;grid-template-columns:150px 1fr 56px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
+.cal:last-child{border-bottom:0}
+.cal .nm{font-family:var(--mono);font-size:14px}
+.cal .track{height:14px;background:repeating-linear-gradient(-45deg,rgba(226,85,61,.35) 0 4px,transparent 4px 8px);border:1px solid var(--line2);position:relative}
+.cal .track i{position:absolute;inset:0 auto 0 0;background:var(--olive)}
+.cal .pc{font-family:var(--mono);color:var(--red);text-align:right}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:1px;background:transparent;color:var(--muted);border:1px solid var(--line2);padding:6px 10px;cursor:pointer}
+.chip:hover{color:var(--text)}
+.chip[aria-pressed="true"]{color:var(--amber);border-color:var(--amber);background:rgba(233,165,20,.08)}
+.chips .sep{width:1px;background:var(--line2);margin:0 4px}
+
+/* XP */
 .xp{background:var(--panel);border:1px solid var(--line)}
 .xp-row{display:grid;grid-template-columns:80px 1fr 150px 84px;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
 .xp-row:last-child{border-bottom:0}
@@ -68,151 +139,805 @@ section{padding:44px 0 8px}
 .xp-num{font-family:var(--mono);font-size:14px;line-height:1.3}
 .xp-num s{color:var(--muted)}
 .xp-pct{font-family:var(--mono);color:var(--green);text-align:right;font-size:16px}
-.legend{display:flex;gap:18px;font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:10px}
+.legend{display:flex;gap:18px;font-family:var(--mono);font-size:13px;color:var(--muted);margin:10px 0 26px}
 .legend span::before{content:"";display:inline-block;width:12px;height:8px;margin-right:6px;vertical-align:middle;background:#4a4a3c}
 .legend span.n::before{background:var(--amber)}
 
-/* TABS */
+/* TRACKS */
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.tab{
-  font-family:var(--stencil);font-size:17px;text-transform:uppercase;letter-spacing:1px;
-  background:var(--panel);color:var(--muted);border:1px solid var(--line2);padding:9px 14px;cursor:pointer;
-  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
-}
+.tab{font-family:var(--stencil);font-size:17px;text-transform:uppercase;letter-spacing:1px;background:var(--panel);color:var(--muted);border:1px solid var(--line2);padding:9px 14px;cursor:pointer;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
 .tab small{font-family:var(--mono);font-size:12px;margin-left:6px;opacity:.7}
 .tab:hover{color:var(--text);border-color:var(--olive)}
 .tab[aria-selected="true"]{background:var(--amber);color:#111;border-color:var(--amber)}
-
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
-.chip{
-  font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:1px;
-  background:transparent;color:var(--muted);border:1px solid var(--line2);padding:6px 10px;cursor:pointer
-}
-.chip:hover{color:var(--text)}
-.chip[aria-pressed="true"]{color:var(--amber);border-color:var(--amber);background:rgba(233,165,20,.08)}
-.search{
-  margin-left:auto;background:var(--panel);border:1px solid var(--line2);color:var(--text);
-  font-family:var(--mono);font-size:15px;padding:7px 10px;min-width:220px;outline:none
-}
-.search:focus{border-color:var(--amber)}
-
-/* ROLE PANEL */
-.role-brief{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--olive);padding:14px 16px;margin-bottom:16px;color:var(--text)}
+.role-brief{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--olive);padding:14px 16px;margin-bottom:16px}
 .role-brief h3{font-family:var(--stencil);font-weight:400;font-size:24px;text-transform:uppercase;margin-bottom:4px}
 .role-brief p{color:var(--muted)}
-
 .list{list-style:none;border:1px solid var(--line);background:var(--panel)}
-.band{
-  font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;
-  padding:6px 16px;background:var(--panel2);border-bottom:1px solid var(--line);border-top:1px solid var(--line)
-}
+.band{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;padding:6px 16px;background:var(--panel2);border-bottom:1px solid var(--line);border-top:1px solid var(--line)}
 .list > .band:first-child{border-top:0}
 .row{display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
 .row:last-child{border-bottom:0}
 .row:hover{background:rgba(111,125,60,.07)}
-.lvl{
-  width:64px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border:1px solid var(--line2);background:var(--bg)
-}
+.lvl{width:64px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--line2);background:var(--bg)}
 .lvl-k{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px}
 .lvl-n{font-family:var(--stencil);font-size:24px;line-height:1}
 .lvl.def .lvl-n{font-size:15px;color:var(--green)}
 .lvl.unk .lvl-n{color:var(--muted)}
 .name{font-weight:600;font-size:19px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.tag{font-family:var(--mono);font-size:11px;letter-spacing:1px;padding:2px 6px;text-transform:uppercase;border:1px solid}
-.tag-n{color:var(--amber);border-color:var(--amber)}
-.tag-m{color:var(--blue);border-color:var(--blue)}
-.tag-c{color:var(--muted);border-color:var(--line2)}
 .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:3px}
-.up{color:var(--green)} .down{color:var(--red)}
 .price{font-family:var(--mono);font-size:16px;text-align:right;white-space:nowrap}
 .empty{padding:28px 16px;text-align:center;font-family:var(--mono);color:var(--muted)}
-
 .out{margin-top:14px;border:1px dashed var(--line2);padding:12px 16px;font-family:var(--mono);font-size:13px;color:var(--muted)}
 .out b{color:var(--red);font-weight:400;letter-spacing:1px}
 .out ul{list-style:none;margin-top:6px;display:flex;flex-direction:column;gap:3px}
-.notes{margin-top:14px;font-family:var(--mono);font-size:13px;color:var(--muted)}
-.notes li{list-style:none}
+.notes{margin-top:14px;font-family:var(--mono);font-size:13px;color:var(--muted);list-style:none}
 .notes li::before{content:"// ";color:var(--amber)}
+.no-hits{font-family:var(--mono);color:var(--muted);padding:40px 0;text-align:center}
 
 footer{margin-top:56px;border-top:1px solid var(--line);padding:22px 0 40px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.top{position:fixed;right:16px;bottom:16px;z-index:30;font-family:var(--mono);font-size:12px;background:var(--amber);color:#111;text-decoration:none;padding:8px 10px;letter-spacing:1px}
 
-@media (max-width:640px){
+@media (max-width:720px){
   body{font-size:17px}
   .stamp{display:none}
+  nav .wrap{flex-wrap:wrap;height:auto;padding-top:8px;padding-bottom:8px}
+  .links{order:2;flex-basis:100%}
+  .search{flex:1;width:auto}
+  .grid.wide{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
   .xp-row{grid-template-columns:56px 1fr 64px;gap:10px}
-  .xp-row .bars{display:none}
-  .xp-head .bars-h{display:none}
+  .xp-row .bars,.xp-head .bars-h{display:none}
   .row{grid-template-columns:60px 1fr;gap:10px}
   .lvl{width:56px}
   .price{grid-column:2;text-align:left;font-size:14px;color:var(--amber)}
-  .search{margin-left:0;width:100%;min-width:0}
+  .cal{grid-template-columns:110px 1fr 48px}
+  html{scroll-padding-top:110px}
 }
 </style>
 </head>
 <body>
 <div class="hazard"></div>
 
-<header>
+<header id="top">
   <div class="wrap">
     <div class="stamp">CLASSIFIED</div>
-    <div class="kicker">// Field Briefing · Role Track Overhaul</div>
-    <h1>Progression <span>Changes</span></h1>
-    <p class="lede">Every role track unlock re-sorted by the level you can get it now. The list covers new gear, items moved between tracks, level and price shifts, and the faster XP curve.</p>
-    <div class="stats" id="stats"></div>
+    <div class="kicker">// Field Briefing · Early Access Season 02</div>
+    <h1>Season 2 <span>Patch Notes</span></h1>
+    <p class="lede">The full Season 2 update, sorted into sections you can jump between: new gear, the high-calibre damage rework, building costs, the reward economy, vendor prices and every role track unlock. Use the search to find any item across all of it.</p>
+    <div class="stats">
+      <div class="stat"><b>4</b><small>New weapons</small></div>
+      <div class="stat"><b>4</b><small>New vehicles</small></div>
+      <div class="stat"><b>3</b><small>New buildables</small></div>
+      <div class="stat"><b>−25%</b><small>.308 base damage</small></div>
+      <div class="stat"><b>−55%</b><small>XP to LVL 20</small></div>
+    </div>
   </div>
 </header>
 
+<nav>
+  <div class="wrap">
+    <div class="links" id="links">
+      <a href="#new">New</a><a href="#systems">Systems</a><a href="#combat">Combat</a><a href="#building">Building</a>
+      <a href="#vehicles">Vehicles</a><a href="#controller">Controller</a><a href="#progression">Progression</a>
+      <a href="#rewards">Rewards</a><a href="#prices">Prices</a><a href="#misc">Misc</a>
+    </div>
+    <span class="hits" id="hits"></span>
+    <input class="search" id="q" type="search" placeholder="Search everything…" aria-label="Search all patch notes">
+  </div>
+</nav>
+
 <main class="wrap">
 
-  <section id="xp">
-    <div class="sec-h"><span class="idx">01</span><h2>Role Track XP</h2></div>
-    <p class="lede" style="margin-bottom:16px">Levels 10–20 were the grind wall. Reaching level 20 now takes less than half the playtime it did in Season 1.</p>
-    <div class="xp" id="xpTable"></div>
-    <div class="legend"><span>Season 1</span><span class="n">Now</span></div>
-  </section>
-
-  <section id="tracks">
-    <div class="sec-h"><span class="idx">02</span><h2>Role Track Unlocks</h2></div>
-    <div class="tabs" role="tablist" id="tabs"></div>
-    <div class="toolbar" id="toolbar">
-      <button class="chip" data-f="all" aria-pressed="true">All</button>
-      <button class="chip" data-f="n">New</button>
-      <button class="chip" data-f="m">Moved in</button>
-      <button class="chip" data-f="earlier">Earlier</button>
-      <button class="chip" data-f="later">Later</button>
-      <button class="chip" data-f="price">Price change</button>
-      <input class="search" id="search" type="search" placeholder="Search gear…" aria-label="Search gear">
+<!-- ============ 01 NEW CONTENT ============ -->
+<section id="new">
+  <div class="sec-h"><span class="idx">01</span><h2>New Content</h2></div>
+  <p class="sec-lede">Four weapons, four vehicles and three buildables, plus the Molotov, a rain weather preset and new Gold Market camos.</p>
+  <div class="grid wide">
+    <div class="card span">
+      <h3>Weapons</h3>
+      <div class="feats">
+        <div class="feat"><div class="k">Assault Rifle · 7.62x39mm</div><div class="nm">TCX-SPR</div><div class="d">Takes the M4's old slot on the Assault track.</div><div class="px"><span>Unlock</span> Assault LVL 20 · $100k <span>Buy</span> $3,200</div></div>
+        <div class="feat"><div class="k">SMG · 9x19mm</div><div class="nm">PP-19 Bizon</div><div class="d">Default Medic weapon with a 53-round mag.</div><div class="px"><span>Unlock</span> Default <span>Buy</span> $1,000</div></div>
+        <div class="feat"><div class="k">LMG · .308 Win</div><div class="nm">Evo-3 Ultra</div><div class="d">Ships with the Evolys 50 RND box.</div><div class="px"><span>Unlock</span> Support LVL 30 · $200k <span>Buy</span> $7,250</div></div>
+        <div class="feat"><div class="k">Marksman Rifle · .308 Win</div><div class="nm">M14</div><div class="d">Recon's new DMR with 10/20/30-round mags.</div><div class="px"><span>Unlock</span> Recon LVL 25 · $100k <span>Buy</span> $7,400</div></div>
+      </div>
+      <p style="margin-top:10px">Each comes with its own optics, muzzle devices, magazines and bipods. See <a href="#progression" style="color:var(--amber)">Progression</a> for unlock levels and <a href="#prices" style="color:var(--amber)">Prices</a> for vendor costs.</p>
     </div>
-    <div id="panel"></div>
-  </section>
 
+    <div class="card span">
+      <h3>Vehicles</h3>
+      <div class="feats">
+        <div class="feat"><div class="k">Light transport</div><div class="nm">Wolf-110</div><div class="d">Fast, light wheeled transport.</div><div class="px"><span>Unlock</span> Driver LVL 8 <span>Buy</span> $2,200</div></div>
+        <div class="feat"><div class="k">Armed transport</div><div class="nm">Wolf-110 [M2]</div><div class="d">Wolf-110 with a ring-mounted M2 Browning.</div><div class="px"><span>Unlock</span> Driver LVL 16 <span>Buy</span> $7,800</div></div>
+        <div class="feat"><div class="k">Main battle tank</div><div class="nm">T-72B3</div><div class="d">Slower than the L2A6, but cheaper and a bit more fuel-efficient.</div><div class="px"><span>Unlock</span> Driver LVL 20 <span>Buy</span> $16,000</div></div>
+        <div class="feat"><div class="k">Anti-air</div><div class="nm">Flakpanzer Gepard</div><div class="d">Dedicated anti-air vehicle.</div><div class="px"><span>Unlock</span> Driver LVL 25 <span>Buy</span> $14,000</div></div>
+      </div>
+    </div>
+
+    <div class="card span">
+      <h3>Buildables</h3>
+      <div class="feats">
+        <div class="feat"><div class="k">Large hammer</div><div class="nm">MG Nest</div><div class="d">Manned M2 Browning emplacement.</div><div class="px"><span>Supply cost</span> 650</div></div>
+        <div class="feat"><div class="k">Medium hammer +</div><div class="nm">Large Shelter</div><div class="d">Big metal cover for key assets, or to keep the rain off.</div><div class="px"><span>Supply cost</span> 250</div></div>
+        <div class="feat"><div class="k">Small hammer +</div><div class="nm">Wooden Step</div><div class="d">A step. Made of wood.</div><div class="px"><span>Supply cost</span> 15 (wood base)</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Molotov Cocktail <span class="tag tag-n">New</span></h3>
+      <ul>
+        <li>Thrown incendiary: impact damage, then fire that damages anyone standing in it over time.</li>
+        <li>Throw overarm or underarm.</li>
+        <li>Burns destructible foliage. Rain weakens the fire.</li>
+        <li>Assault LVL 13 ($25k unlock) · $340 to buy.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Rain Weather <span class="tag tag-n">New</span></h3>
+      <ul>
+        <li>Surfaces, vehicles and players get visibly wet.</li>
+        <li>Rain sounds change with what it hits and where you are: under cover, indoors, in a vehicle or in the open.</li>
+        <li>Destroy a roof and rain comes through it.</li>
+        <li>Heavy rain brings thunder, heard by every player at the same moment from the same direction. It's loud enough to mask footsteps.</li>
+        <li>Rain reduces spotting range and Molotov fire.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Range Finder &amp; Helmets</h3>
+      <h4>Infrared Range Finder</h4>
+      <ul>
+        <li>Now runs on batteries: about 80s of active use per battery.</li>
+        <li>Drains faster if you toggle it on and off quickly.</li>
+      </ul>
+      <h4>Helmets</h4>
+      <ul>
+        <li>Level 4 helmet: muffled audio and proximity chat, restricted field of view, fogs up while sprinting.</li>
+        <li>Level 3 and 4 helmets resist suppression better (see <a href="#combat" style="color:var(--amber)">Combat</a>).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Gold Market Camos</h3>
+      <p>Eight weapon and vehicle skins across four camo families:</p>
+      <div class="tw"><table class="t"><tbody>
+        <tr><td><b>Black &amp; Gold</b> <span class="tag tag-n">S2 exclusive</span></td><td>Little Bird</td></tr>
+        <tr><td><b>Chocolate Chip</b></td><td>Evo-3 Ultra, M14, TCX-SPR</td></tr>
+        <tr><td><b>Two-Tone Desert</b></td><td>Galil, Mosin, Havoc</td></tr>
+        <tr><td><b>Digital Wood</b></td><td>M500</td></tr>
+        <tr><td><b>Black &amp; Gold AK</b> <span class="tag tag-r">Removed</span></td><td>No longer in the Gold Market</td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="card">
+      <h3>Wager Vendor <span class="tag tag-c">Later in S2</span></h3>
+      <ul>
+        <li>Bet your own cash on your own performance, with stakes you set yourself.</li>
+        <li>A live tracker above the minimap shows your stake and progress.</li>
+        <li>Not permanent: it will come and go during seasons.</li>
+      </ul>
+      <div class="callout">Not available at Season 2 launch. It opens later in the season.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 SYSTEMS ============ -->
+<section id="systems">
+  <div class="sec-h"><span class="idx">02</span><h2>Match Systems</h2></div>
+  <p class="sec-lede">New rules for team switching and team kills, squad and rebuy quality-of-life, server seeding rewards, ping limits, and the Lonestar faction experiment.</p>
+  <div class="grid">
+    <div class="card">
+      <h3>Team Switching Limits</h3>
+      <p>These apply once a team is <b>more than 10 points ahead</b>, to stop late switches deciding matches:</p>
+      <ul>
+        <li>After joining a team you can't switch again for 15 minutes.</li>
+        <li>Switching or joining mid-match keeps your map hidden until you first reach the control zone.</li>
+        <li>You can't use the spawn vehicle until you first reach the control zone.</li>
+      </ul>
+      <div class="callout">You can still join your friends' team. These rules just add friction for switch abusers.</div>
+    </div>
+
+    <div class="card">
+      <h3>Team-Kill Punish / Forgive</h3>
+      <ul>
+        <li>When a teammate kills you, you choose <b>Forgive</b> or <b>Punish</b>.</li>
+        <li>Punishes stack up against the team killer, leading to kicks and then escalating bans.</li>
+        <li>Forgive removes a potential mark against them.</li>
+      </ul>
+      <div class="callout">Respawning and leaving the safe zone without voting counts as forgiving.</div>
+    </div>
+
+    <div class="card">
+      <h3>Squads &amp; Rebuy</h3>
+      <h4>Squad intent</h4>
+      <ul>
+        <li>Squad leaders pick an intent from a preset list. Everyone sees it in the squad list before joining.</li>
+        <li>Squad invites and other timed prompts now queue.</li>
+      </ul>
+      <h4>Rebuy last loadout</h4>
+      <ul>
+        <li>The old placeholder rebuy UI is gone.</li>
+        <li>Rebuy now fills the vendor with your last loadout, so you can add or remove items before buying.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Server Seeding &amp; Pre-Match</h3>
+      <ul>
+        <li>Players who fill up empty servers earn rewards and a vendor discount once the match starts.</li>
+        <li>Pre-match activities in each spawn: guns with targets, a football and a hidden radio.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Region Ping Limits</h3>
+      <ul>
+        <li>Official servers set a maximum ping per region. Starting values are lenient.</li>
+        <li>Staying over the limit for a sustained period gets you kicked. Short spikes and server-side lag don't count.</li>
+        <li>After a high-ping kick you can't rejoin that server until the next map.</li>
+        <li>The server browser gets max-ping tags and filters.</li>
+        <li>Community admins can set their own limits, looser or stricter.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Bakurani Spawns</h3>
+      <ul>
+        <li>All three team spawns have been moved and rebuilt.</li>
+        <li>Each has purpose-built routes to the zone, for more even matches between teams.</li>
+      </ul>
+    </div>
+
+    <div class="card span">
+      <h3>Faction Balance Experiment <span class="tag tag-c">Season 2 only</span></h3>
+      <p>Lonestar (blue) had a noticeably lower win rate than the other two factions. Uniform visibility and spawns played a part, but the developers say player sentiment about the blue team was the biggest reason people avoided it. Season 2 tests whether paying Lonestar more changes that.</p>
+      <div class="tw"><table class="t"><tbody>
+        <tr><td><b>Lonestar win bonus</b></td><td>Extra cash &amp; XP for winning</td></tr>
+        <tr><td><b>Lonestar teamplay multipliers</b></td><td>Cash &amp; XP multipliers on teamplay actions</td></tr>
+        <tr><td><b>Losing-team discount</b> <span class="tag tag-n">All factions</span></td><td>20% off at the vendor when at least 40 points behind second place</td></tr>
+        <tr><td><b>Spawns</b></td><td>All faction spawns moved on Bakurani</td></tr>
+      </tbody></table></div>
+      <div class="callout red">Community server hosts caught exploiting the faction bonus will be punished.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 COMBAT ============ -->
+<section id="combat">
+  <div class="sec-h"><span class="idx">03</span><h2>Combat Balance</h2></div>
+  <p class="sec-lede">High-calibre rounds were giving near-sniper damage at assault-rifle fire rates. Base damage drops for those calibres. Snipers get higher hit-location damage so they stay the big single-shot class. The FAL still hits hardest of the assault rifles, but now sits closer to the TCX-SPR and M4.</p>
+  <div class="grid wide">
+    <div class="card">
+      <h3>Calibre Base Damage</h3>
+      <p>These apply to every weapon using the round, including vehicle weapons.</p>
+      <div id="calibre"></div>
+      <p style="margin-top:10px">Vehicle guns affected include the Little Bird AH-6M, Z20 Lakota and Humvee miniguns.</p>
+    </div>
+
+    <div class="card">
+      <h3>Armor &amp; Helmets</h3>
+      <div class="tw" data-t="armor"></div>
+      <h4>Level 4 helmet extras</h4>
+      <ul><li>Muffled audio and proximity chat, restricted field of view, fogs up while sprinting.</li></ul>
+    </div>
+
+    <div class="card">
+      <h3>Weapon Archetypes</h3>
+      <h4>DMRs</h4>
+      <ul>
+        <li>Hit-location damage retuned for the new base values. Headshots and upper-body hits are a little weaker.</li>
+        <li>Meant to sit between assault rifles and snipers, not act as a faster-firing sniper.</li>
+        <li>New recoil pass across all DMRs.</li>
+      </ul>
+      <h4>Assault rifles &amp; LMGs</h4>
+      <ul>
+        <li>Upper, middle and lower torso damage is now more even, so body shots are more predictable.</li>
+        <li>Assault rifle body shots do slightly less damage.</li>
+        <li>LMG body damage now matches assault rifles. LMGs win through sustained fire and magazine size.</li>
+      </ul>
+      <h4>Scout Rifle</h4>
+      <ul>
+        <li>One-shot headshot on targets with no helmet.</li>
+        <li>Two headshots against a Level 1 helmet.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Suppression Rebuilt</h3>
+      <ul>
+        <li>Shared falloff curves per weapon, so being shot at feels the same whatever is shooting.</li>
+        <li>Near misses from small and medium calibres suppress much harder.</li>
+        <li>Fire rate is factored in, so SMGs and pistols don't suppress too much.</li>
+        <li>Screen shake from suppression is reduced.</li>
+        <li>Level 3 helmets cut suppression by <b>68%</b>, Level 4 by <b>80%</b>.</li>
+      </ul>
+      <h4>Vehicle turrets vs infantry</h4>
+      <ul>
+        <li>Heavy and Artillery top machine-gun turrets used helicopter-cannon hit-location values. They now use assault rifle / LMG values.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Weapon Tweaks</h3>
+      <div class="tw"><table class="t"><tbody>
+        <tr><td><b>MP5</b></td><td>More horizontal recoil. It was too easy to control.</td></tr>
+        <tr><td><b>Super-45</b></td><td>Stronger damage falloff past 50m, keeping it close-quarters.</td></tr>
+        <tr><td><b>MGL-40</b></td><td>Muzzle velocity −25%. Stronger falloff on the 40mm outer radius. More inaccuracy and sway, slower ADS, and a reload penalty on the Little Bird bench.</td></tr>
+        <tr><td><b>Mosin</b></td><td>New PU 91/30 (3.5x) scope. It can no longer use other optics, which were never meant to fit yet.</td></tr>
+        <tr><td><b>12g slugs</b></td><td>Damage vs armor now scales with armor tier instead of one flat reduction.</td></tr>
+        <tr><td><b>Compound Bow</b></td><td>Arrows drop off over a shorter distance. Damage vs armor scales with tier, slightly better vs low-tier armor than S1.</td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="card">
+      <h3>Parachutes &amp; Medical Bag</h3>
+      <ul>
+        <li>Parachutes take longer to open fully, and won't open below about 10m.</li>
+        <li>Opening below roughly 50m while falling fast won't slow you in time, so you take fall damage.</li>
+        <li>Trust your pilot, or drive or fly to the zone yourself.</li>
+      </ul>
+      <div class="tw" data-t="chute" style="margin-top:10px"></div>
+      <p style="margin-top:10px">Some weapon inspects are silent. This is a known issue.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 BUILDING ============ -->
+<section id="building">
+  <div class="sec-h"><span class="idx">04</span><h2>Building</h2></div>
+  <p class="sec-lede">A full pass on costs, build speed and durability, so structures are an investment rather than spam. The Talon, Mortar and Drill Rig are slower to build and more expensive to keep running.</p>
+  <div class="grid wide">
+    <div class="card">
+      <h3>Build Supply Costs</h3>
+      <div class="tw" data-t="buildCost"></div>
+    </div>
+
+    <div class="card">
+      <h3>Drill Rig</h3>
+      <p>Shorter uptime and more fuel needed, so multi-rig builds stop dominating without being banned outright.</p>
+      <div class="tw" data-t="drill"></div>
+      <h4>Build speed</h4>
+      <ul>
+        <li>Medium hammer adds less per swing.</li>
+        <li>Critical spots give a smaller bonus.</li>
+        <li>Large hammer is unchanged.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Talon &amp; Mortar</h3>
+      <div class="tw" data-t="emplace"></div>
+      <p style="margin-top:10px">New mortar animation: the shell is dropped into the tube as it fires, which slows the fire rate.</p>
+    </div>
+
+    <div class="card">
+      <h3>Other Building Changes</h3>
+      <ul>
+        <li>Barbed wire and sandbags can go on top of Bremmer walls.</li>
+        <li>Barbed wire kills no longer give cash or XP.</li>
+        <li>Foundations fit properly against slopes, stairs and walls.</li>
+        <li>Unfinished buildables collapse as soon as they lose support instead of floating.</li>
+        <li>Tank traps only place on a defined set of surfaces.</li>
+        <li>Hammers can no longer breach doors and gates. The Halligan bar breaches both.</li>
+        <li>CIWS cannon now shreds light cover but struggles against heavy fortifications.</li>
+        <li>New: Wooden Step (small hammer+), Large Shelter (medium hammer+), MG Nest (large hammer).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 VEHICLES ============ -->
+<section id="vehicles">
+  <div class="sec-h"><span class="idx">05</span><h2>Vehicles</h2></div>
+  <div class="grid">
+    <div class="card">
+      <h3>Vehicle Changes</h3>
+      <ul>
+        <li>Purchased vehicles' inventories are private to the driver and their squad by default. A new setting opens them to everyone once the vehicle is fully unlocked.</li>
+        <li>Free team-spawn vehicles keep open inventories. Use at your own risk.</li>
+        <li>Tracked vehicles feel heavier: less floaty in the air, less bouncy on landing.</li>
+        <li>Humvee handling reworked: less stiff over terrain, slower to reach top speed, climbs better.</li>
+        <li>Dune Buggy brakes are weaker, so it skids and drifts a bit more.</li>
+        <li>Explosives and placeables can't be used from enclosed seats.</li>
+        <li>Vanguard CIWS takes 2.25x longer to kill the spawn vehicle.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Vehicle Fixes</h3>
+      <ul>
+        <li>Humvee gunner no longer faces the wrong way after entering.</li>
+        <li>Gunner fire desync and inconsistent firing audio fixed.</li>
+        <li>Helicopter cockpit glass works both ways: shooting out through it damages the vehicle like incoming fire.</li>
+        <li>Tanks no longer launch themselves off their own turret collision.</li>
+        <li>Vehicles no longer sink into the ground when ramming at speed.</li>
+        <li>Wheeled vehicles no longer get stuck driving out of a backward roll.</li>
+        <li>Smoke screens and flares now show for late joiners.</li>
+        <li>Exiting places you on the ground instead of pushing you through it.</li>
+        <li>Gamepad: fixed vehicle spinning after closing the tac map, inconsistent ADS on vehicle weapons, and crouch/seat swap in mounted turrets.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 CONTROLLER ============ -->
+<section id="controller">
+  <div class="sec-h"><span class="idx">06</span><h2>Controller</h2></div>
+  <div class="grid wide">
+    <div class="card">
+      <h3>Aim Assist &amp; Feel</h3>
+      <ul>
+        <li>New Aim Assist strength slider: Settings › Controller › Advanced. Default 1, 0 turns it off.</li>
+        <li>Aim Assist works on Firing Range dummies, plus general improvements.</li>
+        <li>Retuned horizontal/vertical sensitivity and aim acceleration. Acceleration kicks in sooner.</li>
+        <li>Look direction recovers faster after closing radial wheels.</li>
+        <li>Faster list scrolling. Shorter holds for 'Purchase Loadout' and 'Apply Changes'.</li>
+      </ul>
+      <h4>Fixes</h4>
+      <ul>
+        <li>Cooking grenades with X works again.</li>
+        <li>Releasing LT now cancels a bandage self-heal.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Bind Changes</h3>
+      <div class="tw"><table class="t">
+        <thead><tr><th>Action</th><th>Before</th><th>Now</th></tr></thead>
+        <tbody>
+          <tr><td>Cycle Minimap Zoom</td><td class="o">—</td><td>View (Press)</td></tr>
+          <tr><td>Reject Tip</td><td class="o">—</td><td>View (Press)</td></tr>
+          <tr><td>Deploy Crate</td><td class="o">—</td><td>D-Pad Up (Hold)</td></tr>
+          <tr><td>Open Inventory</td><td class="o">View</td><td>Menu (Press)</td></tr>
+          <tr><td>Toggle Weight</td><td class="o">Y</td><td>View (Press)</td></tr>
+          <tr><td>Remove From Loadout</td><td class="o">R3</td><td>Y (Hold)</td></tr>
+          <tr><td>Bribe</td><td class="o">Menu</td><td>X</td></tr>
+          <tr><td>Accept / Reject Squad Invite</td><td class="o">LB / RB</td><td>View / Menu</td></tr>
+          <tr><td>Scoreboard Sort</td><td class="o">LB / RB</td><td>LT / RT</td></tr>
+          <tr><td>Drop</td><td class="o">Y</td><td>Y (Hold)</td></tr>
+          <tr><td>Primary / secondary tabs</td><td class="o">—</td><td>LB/RB primary · LT/RT secondary</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 PROGRESSION ============ -->
+<section id="progression">
+  <div class="sec-h"><span class="idx">07</span><h2>Progression</h2></div>
+  <p class="sec-lede">Levels 10–20 were the grind wall. Reaching level 20 now takes less than half the playtime it did in Season 1, and most attachments unlock earlier or on new tracks.</p>
+  <div class="xp" id="xpTable"></div>
+  <div class="legend"><span>Season 1</span><span class="n">Season 2</span></div>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div class="chips" id="trackChips">
+    <button class="chip" data-f="all" aria-pressed="true">All</button>
+    <button class="chip" data-f="n">New</button>
+    <button class="chip" data-f="m">Moved in</button>
+    <button class="chip" data-f="earlier">Earlier</button>
+    <button class="chip" data-f="later">Later</button>
+    <button class="chip" data-f="price">Price change</button>
+  </div>
+  <div id="panel"></div>
+</section>
+
+<!-- ============ 08 REWARDS ============ -->
+<section id="rewards">
+  <div class="sec-h"><span class="idx">08</span><h2>Cash &amp; XP Rewards</h2></div>
+  <p class="sec-lede">Rewards now track risk and value. Armed vehicles pay far more than unarmed ones, logistics pays for consistent runs, spotting pays about 30% less, and several farming exploits are closed.</p>
+  <div class="grid wide">
+    <div class="card">
+      <h3>New Action Rewards</h3>
+      <div class="tw" data-t="actions"></div>
+    </div>
+
+    <div class="card">
+      <h3>Role XP Routing</h3>
+      <div class="tw"><table class="t">
+        <thead><tr><th>Action</th><th>Before</th><th>Now</th></tr></thead>
+        <tbody>
+          <tr><td>Destroying a buildable</td><td class="o">Support</td><td>Assault</td></tr>
+          <tr><td>IED / C4</td><td class="o">Support</td><td>Assault</td></tr>
+          <tr><td>Artillery</td><td class="o">Support</td><td>Driver</td></tr>
+          <tr><td>Repairing</td><td class="o">Support (flat)</td><td>Driver or Pilot, by vehicle repaired</td></tr>
+        </tbody>
+      </table></div>
+      <h4>Capture hostile drill tower</h4>
+      <div class="tw" data-t="tower"></div>
+    </div>
+
+    <div class="card">
+      <h3>Logistics Delivery Streaks <span class="tag tag-n">New</span></h3>
+      <p>Base logistics pay is lower, but every consecutive run adds a bonus, so return trips pay off.</p>
+      <div class="tw"><table class="t">
+        <thead><tr><th>Streak</th><th class="n">Bonus each</th><th class="n">Max streak</th></tr></thead>
+        <tbody>
+          <tr><td>Crates in a row</td><td class="n">+$50 / +25 XP</td><td class="n">10</td></tr>
+          <tr><td>Pallets in a row</td><td class="n">+$125 / +50 XP</td><td class="n">10</td></tr>
+          <tr><td>Players in a row</td><td class="n">+$25 / +5 XP</td><td class="n">25</td></tr>
+          <tr><td>Return trips in a row</td><td class="n">+$50 / +25 XP</td><td class="n">10</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h3>Logistics Base Pay</h3>
+      <div class="tw" data-t="logi"></div>
+    </div>
+
+    <div class="card span">
+      <h3>Vehicle Destroyed</h3>
+      <p>Every variant now has its own reward. Armed variants give 1.5x the XP of the default, and attack vehicles pay more the more kills they've racked up.</p>
+      <div class="tw" data-t="vehKill"></div>
+    </div>
+
+    <div class="card">
+      <h3>Buildable Destroyed</h3>
+      <p>Cash now equals the buildable's supply cost, and XP is about 25% of that.</p>
+      <div class="tw" data-t="buildKill"></div>
+    </div>
+
+    <div class="card">
+      <h3>Supply Crate Destroyed</h3>
+      <div class="tw" data-t="crateKill"></div>
+      <h4>Spotting</h4>
+      <ul>
+        <li>About 30% lower than Season 1. It was the lowest-risk, highest-paying way to earn.</li>
+        <li>Now scales with the value of each vehicle variant, buildable and crate spotted.</li>
+        <li>Spotted target destroyed by an enemy faction: 50% → 25% of the reward.</li>
+      </ul>
+    </div>
+
+    <div class="card span">
+      <h3>Exploit Fixes</h3>
+      <ul>
+        <li>Spotting rewards on buildables scale with build progress, so spotting unfinished builds can't be farmed.</li>
+        <li>Destroying a buildable pays based on how built it is.</li>
+        <li>Selling from a supply crate has diminishing returns per buyer, down to break-even with no profit or XP.</li>
+        <li>Selling to an enemy player (e.g. after they switch teams) gives no cash or XP.</li>
+        <li>Destroying an empty enemy crate gives half cash and half XP.</li>
+        <li>Crate deploy and destroy rewards scale with the supplies inside.</li>
+        <li>FOB Supplied Assist is split between assisting players instead of paying everyone in full.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 PRICES ============ -->
+<section id="prices">
+  <div class="sec-h"><span class="idx">09</span><h2>Vendor Prices</h2></div>
+  <p class="sec-lede">In-match purchase prices. Armor, high-end weapons and armed vehicles cost a lot more. Backpacks, most attachments and several staple weapons got cheaper, with most muzzles, grips and foregrips down by up to a third.</p>
+  <div class="card">
+    <div class="chips" id="priceDir">
+      <button class="chip" data-d="all" aria-pressed="true">All</button>
+      <button class="chip" data-d="new">New</button>
+      <button class="chip" data-d="up">Price up</button>
+      <button class="chip" data-d="down">Price down</button>
+      <span class="sep"></span>
+      <button class="chip" data-c="all" aria-pressed="true">Any type</button>
+      <button class="chip" data-c="Weapon">Weapons</button>
+      <button class="chip" data-c="Attachment">Attachments</button>
+      <button class="chip" data-c="Magazine">Magazines</button>
+      <button class="chip" data-c="Armor">Armor</button>
+      <button class="chip" data-c="Gear">Gear</button>
+      <button class="chip" data-c="Vehicle">Vehicles</button>
+    </div>
+    <div class="tw" id="priceTable"></div>
+  </div>
+</section>
+
+<!-- ============ 10 MISC ============ -->
+<section id="misc">
+  <div class="sec-h"><span class="idx">10</span><h2>Misc</h2></div>
+  <div class="grid">
+    <div class="card">
+      <h3>Inventory &amp; Pings</h3>
+      <ul>
+        <li>30mm cannon ammo now takes a 2x2 slot (was 1x1). Backpack stacks cap at 50, vehicle storage stays at 200.</li>
+        <li>Assistance request ping timer 20s → 60s.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Steam &amp; Stability</h3>
+      <ul>
+        <li>Steam Trading Cards and Point Shop items are coming during Season 2, pending Valve's approval.</li>
+        <li>Many QoL improvements, bug fixes, and performance, stability and server security improvements.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="no-hits" id="noHits" hidden>No matches. Try a shorter search.</div>
 </main>
 
 <footer>
-  <div class="wrap">Unofficial fan reference compiled from the official progression patch notes. Items with “—” keep their previous level, since only their price changed.</div>
+  <div class="wrap">Unofficial fan reference compiled from the official WARDOGS Season 2 patch notes. Track items marked “—” keep their previous level, since only their price changed. Unlock prices ($k) are role track unlocks; vendor prices are per-match purchase costs.</div>
 </footer>
 <div class="hazard"></div>
+<a class="top" href="#top">▲ TOP</a>
 
 <script>
-/* ===== DATA =====
-   t: n = new unlock, m = moved into track, c = changed
-   l: new level (0 = unlocked by default, null = level unchanged / not listed)
-   o: old level (0 = previously unlocked by default)
-   p / op: new / old price in $k (0 = free)
-*/
+/* ================= HELPERS ================= */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num = n => n.toLocaleString("en-US");
+
+function fmtV(v, u){
+  if (v == null) return "—";
+  if (typeof v === "string") return v;
+  if (u === "$") return "$" + num(v);
+  if (u === "xp") return num(v) + " XP";
+  if (u === "%") return v + "%";
+  if (u === "s") return v + "s";
+  return num(v);
+}
+/* mode: "good-up" (more is better), "good-down" (less is better), "neutral" */
+function deltaHTML(o, v, mode){
+  if (typeof o !== "number" || typeof v !== "number" || o === 0) return "";
+  const pct = Math.round((v - o) / o * 100);
+  if (!pct) return "";
+  const up = v > o;
+  const cls = mode === "neutral" ? "neu" : ((mode === "good-down") ? !up : up) ? "up" : "down";
+  return `<span class="${cls}">${up ? "▲" : "▼"} ${Math.abs(pct)}%</span>`;
+}
+
+/* ================= CHANGE TABLES =================
+   rows: [name, before, after, unit?, note?]   before null = new */
+const T = {
+  armor:{mode:"neutral",head:["Item","S1","S2",""],rows:[
+    ["Level 3 armor & helmet: damage reduction",55,50,"%"],
+    ["Level 4 armor & helmet: damage reduction",65,60,"%"],
+    ["Level 3 helmet: suppression reduction",null,68,"%"],
+    ["Level 4 helmet: suppression reduction",null,80,"%"]]},
+  chute:{mode:"good-down",head:["Item","S1","S2",""],rows:[
+    ["Basic Parachute price",100,500,"$"],
+    ["Sport Parachute price",1000,700,"$"],
+    ["Medical Bag durability",100,150,"",null,"good-up"]]},
+  buildCost:{mode:"good-down",head:["Buildable","S1","S2",""],rows:[
+    ["Wood Base",null,15],["Bremmer Wall",15,32],["Door",22,80],["Gate",85,200],
+    ["Large Shelter",null,250],["Air Raid Shelter / Bunker / Crow's Nest",100,200],
+    ["L81 Mortar",150,600],["Stingray",150,650],["MG Nest",null,650],
+    ["Talon 9K-SAM",1000,650],["Vanguard CIWS",1500,1200],["Hot Zone Magnet",2250,2750]]},
+  drill:{mode:"neutral",head:["Drill Rig","S1","S2",""],rows:[
+    ["Minimum fuel to activate",1500,2000],
+    ["Duration per fuel",0.05,0.03],
+    ["Max uptime (matches capturable towers)",375,300,"s"],
+    ["Max fuel",7500,10000],
+    ["Post-spawn cooldown","Short","Much longer"]]},
+  emplace:{mode:"neutral",head:["Stat","S1","S2",""],rows:[
+    ["Talon reload",2,5,"s"],
+    ["Talon restock cost (munitions)",50,200],
+    ["Mortar restock cost (munitions)",75,150]]},
+  actions:{mode:"good-up",head:["Action","S1","S2",""],rows:[
+    ["Kill with an assault-archetype weapon",1500,2000,"$"],
+    ["FOB hack: teammates in radius",null,"$1,000 / 250 XP",null,"hacker still gets $2,500 / 250 XP"],
+    ["Door breached (Halligan bar, once per door)",null,100,"$"],
+    ["Halligan bar uses",5,7],
+    ["Friendly FOB door closed",null,75,"$"],
+    ["FOB destroyed bonus (by supplies held, max at 25k)",null,"up to +$7,500 / +250 XP"]]},
+  tower:{mode:"good-up",head:["","S1","S2",""],rows:[
+    ["Cash",750,1500,"$"],["XP",250,300,"xp"]]},
+  logi:{mode:"good-up",head:["Action","S1","S2",""],rows:[
+    ["Player delivered",150,100,"$"],["Player delivered (XP)",50,25,"xp"],
+    ["Player delivered (ground vehicle)",500,350,"$"],
+    ["Return trip (ground vehicle)",250,150,"$"],["Return trip (ground vehicle, XP)",100,50,"xp"],
+    ["Deploy supply crate: small",500,250,"$"],["Deploy supply crate: large",1000,500,"$"],
+    ["Deploy supply crate: small (XP)",250,200,"xp"],["Deploy supply crate: large (XP)",500,400,"xp"],
+    ["Air-deployed crate: small (XP)",200,150,"xp"],["Air-deployed crate: large (XP)",400,300,"xp"],
+    ["Deploy supply pallet",2500,1250,"$"],["Deploy supply pallet (XP)",500,400,"xp"],
+    ["Deploy supply pallet from ground vehicle (XP)",750,500,"xp"]]},
+  vehKill:{mode:"good-up",head:["Vehicle","S1","S2",""],rows:[
+    ["Kodiak",1250,500,"$"],["Kodiak (Pickup)",null,600,"$"],["Kodiak [M249]",null,3400,"$"],
+    ["Wolf-110",null,450,"$"],["Wolf-110 [M2 Browning]",null,3900,"$"],
+    ["Humvee",1500,600,"$"],["Humvee [M249]",null,4250,"$"],["Humvee [Minigun]",null,5000,"$"],
+    ["Ural",2500,1000,"$"],["Ural Defender",null,3600,"$"],["Ural Defender [M249]",null,4750,"$"],
+    ["Bobcat",250,100,"$"],["Dune Buggy",750,300,"$"],
+    ["MH-6",3125,1250,"$"],["Little Bird AH-6M [Miniguns]",null,6000,"$"],["Little Bird AH-6R [Rockets]",null,9400,"$"],
+    ["Z20 Lakota",3700,1500,"$"],["Z20 Lakota [Miniguns]",null,7500,"$"],
+    ["Havoc",18000,14000,"$"],["L2A6",14000,11000,"$"],["SPH-2",14000,8000,"$"],
+    ["Flakpanzer Gepard",null,7000,"$"],["T-72B3",null,8000,"$"]]},
+  buildKill:{mode:"good-up",head:["Buildable","S1","S2",""],rows:[
+    ["L81 Mortar",300,650,"$"],["Stingray",300,650,"$"],["Hot Zone Magnet",4500,2750,"$"],
+    ["Vanguard CIWS",3000,1200,"$"],["Talon 9K-SAM",2000,650,"$"],["Repair / Refuel Station",400,200,"$"],
+    ["Door",500,100,"$"],["Gate",170,200,"$"],
+    ["MG Nest",null,650,"$"],["Large Shelter",null,250,"$"],["Wood Base",null,15,"$"]]},
+  crateKill:{mode:"good-up",head:["Crate","S1","S2",""],rows:[
+    ["Small",500,300,"$"],["Large",1000,600,"$"],
+    ["Small Armored",500,1000,"$"],["Large Armored",1000,1600,"$"],["Supply Pallet",1000,800,"$"]]}
+};
+
+function renderT(key){
+  const t = T[key];
+  const body = t.rows.map(([n,o,v,u,note,modeOverride]) => `<tr>
+      <td>${esc(n)}${note ? `<span class="note">${esc(note)}</span>` : ""}</td>
+      <td class="n o">${o == null ? '<span class="tag tag-n">New</span>' : fmtV(o,u)}</td>
+      <td class="n">${fmtV(v,u)}</td>
+      <td class="n">${deltaHTML(o, v, modeOverride || t.mode)}</td>
+    </tr>`).join("");
+  return `<table class="t"><thead><tr><th>${t.head[0]}</th><th class="n">${t.head[1]}</th><th class="n">${t.head[2]}</th><th class="n">${t.head[3]}</th></tr></thead><tbody>${body}</tbody></table>`;
+}
+$$("[data-t]").forEach(el => el.innerHTML = renderT(el.dataset.t));
+
+/* ================= CALIBRE BARS ================= */
+$("#calibre").innerHTML = [[".308 Winchester",25],["7.62x54mmR",20],["7.62x39mm",19],[".50 Cal",16]]
+  .map(([n,p]) => `<div class="cal"><span class="nm">${n}</span><span class="track"><i style="width:${100-p}%"></i></span><span class="pc">−${p}%</span></div>`).join("");
+
+/* ================= VENDOR PRICES ================= */
+const P = [
+  // new
+  ["PP-19 Bizon",null,1000,"Weapon"],["TCX-SPR",null,3200,"Weapon"],["Evo-3 Ultra",null,7250,"Weapon"],["M14",null,7400,"Weapon"],
+  ["Compact P-1 Red Dot",null,480,"Attachment"],["PU 91/30 Scope (Mosin)",null,780,"Attachment"],["Leatherwood ART II (M14)",null,950,"Attachment"],
+  ["Evolys Bipod (Evo-3 Ultra)",null,1450,"Attachment"],["M14 Bipod",null,1480,"Attachment"],["Cross Rifle Muzzle Brake (TCX-SPR)",null,780,"Attachment"],
+  ["Clutch Lok Muzzle Brake (TCX-SPR)",null,1100,"Attachment"],["SRD762TI-QD Suppressor (TCX-SPR)",null,1350,"Attachment"],
+  ["SL7i-BL Suppressor (Evo-3 Ultra)",null,1400,"Attachment"],[".30 Cal SS Phosphate Muzzle Brake (M14)",null,950,"Attachment"],
+  [".30 Cal Steel Black Flash Hider (M14)",null,730,"Attachment"],
+  ["PP-19 Bizon 53 RND Magazine",null,200,"Magazine"],["TCX-SPR 28 RND Magazine",null,50,"Magazine"],["Evolys 50 RND Box",null,110,"Magazine"],
+  ["M14 10 RND Magazine",null,60,"Magazine"],["M14 20 RND Magazine",null,110,"Magazine"],["M14 30 RND Magazine",null,180,"Magazine"],
+  ["Molotov Cocktail",null,340,"Gear"],["Music Tape: Dyshat' – Baryber",null,100,"Gear"],["Music Tape: Blue (Da Ba Dee) – Eiffel 65 (Lonestar only)",null,100,"Gear"],
+  ["Wolf-110",null,2200,"Vehicle"],["Wolf-110 [M2 Browning]",null,7800,"Vehicle"],["Flakpanzer Gepard",null,14000,"Vehicle"],["T-72B3",null,16000,"Vehicle"],
+  // increases
+  ["T-21",600,1200,"Weapon"],["AMP-9",900,1375,"Weapon"],["MP5",1500,1800,"Weapon"],["Super-45",2600,5600,"Weapon"],
+  ["Scout Rifle TD",1100,1200,"Weapon"],["Compound Bow",800,1350,"Weapon"],["GGX 18",800,1000,"Weapon"],["BMR-308",6000,6250,"Weapon"],
+  ["MGL-40",6000,7500,"Weapon"],["AMR 50",8800,14800,"Weapon"],
+  ["Level 3 Armor",2000,2500,"Armor"],["Level 3 Helmet",1500,2000,"Armor"],["Level 4 Armor",4000,5000,"Armor"],["Level 4 Helmet",3000,4500,"Armor"],
+  ["Binoculars",75,180,"Gear"],["Monocular",150,350,"Gear"],["Range Finder",400,1450,"Gear"],["Infrared Range Finder",1200,3200,"Gear"],
+  ["Basic Parachute",100,500,"Gear"],["Remote Detonator",550,650,"Gear"],["Wrench",150,180,"Gear"],["SKS Bipod",800,810,"Attachment"],
+  ["Kodiak [M249]",3750,6750,"Vehicle"],["Humvee [M249]",3750,8500,"Vehicle"],["Humvee [Minigun]",4500,10000,"Vehicle"],
+  ["Ural Defender",6000,7200,"Vehicle"],["Ural Defender [M249]",6750,9500,"Vehicle"],["L2A6",14000,22000,"Vehicle"],
+  ["Little Bird AH-6M [Miniguns]",7000,12000,"Vehicle"],["Little Bird AH-6R [Rockets]",12500,18800,"Vehicle"],
+  ["Z20 Lakota [Miniguns]",8000,15000,"Vehicle"],["Havoc",18000,28000,"Vehicle"],
+  // decreases
+  ["AK74",1600,800,"Weapon"],["Deagle",900,750,"Weapon"],["Galil",2200,2000,"Weapon"],["RPG-7",2000,1800,"Weapon"],
+  ["MAAWS",2600,2400,"Weapon"],["PKM",4500,4100,"Weapon"],["FAL",6500,6000,"Weapon"],
+  ["Ruck Backpack",2400,1600,"Gear"],["Gunner Backpack + Sling",3500,2400,"Gear"],["Arsenal Backpack + 2 Slings",5000,4000,"Gear"],
+  ["Halligan Bar",1100,885,"Gear"],["Medical Bag",2000,1800,"Gear"],["Field Resuscitator",500,425,"Gear"],["Sport Parachute",1000,700,"Gear"],
+  ["Birdcage Flash Hider",900,600,"Attachment"],["BMR-308 Flash Hider",1280,930,"Attachment"],["Shift Foregrip",1150,840,"Attachment"],
+  ["GOL Multi-Caliber Suppressor",1800,1450,"Attachment"],["Full Choke",1400,1150,"Attachment"],["RC-556 Suppressor",1550,1310,"Attachment"],
+  ["AMR 50 Cal Muzzle Brake",1600,1380,"Attachment"],["12 Gauge Suppressor",1225,1170,"Attachment"]
+];
+const CAT_ORDER = ["Weapon","Attachment","Magazine","Armor","Gear","Vehicle"];
+let pDir = "all", pCat = "all";
+function pdir(r){ return r[1] == null ? "new" : r[2] > r[1] ? "up" : "down"; }
+function renderPrices(){
+  const rows = P.filter(r => (pDir === "all" || pdir(r) === pDir) && (pCat === "all" || r[3] === pCat))
+    .sort((a,b) => CAT_ORDER.indexOf(a[3]) - CAT_ORDER.indexOf(b[3])
+      || (a[1]==null) - (b[1]==null)
+      || Math.abs((b[2]-b[1])/(b[1]||1)) - Math.abs((a[2]-a[1])/(a[1]||1))
+      || a[0].localeCompare(b[0]));
+  $("#priceTable").innerHTML = rows.length ? `<table class="t"><thead><tr><th>Item</th><th>Type</th><th class="n">S1</th><th class="n">S2</th><th class="n"></th></tr></thead><tbody>${
+    rows.map(([n,o,v,c]) => `<tr><td>${esc(n)}</td><td class="o">${c}</td>
+      <td class="n o">${o == null ? '<span class="tag tag-n">New</span>' : fmtV(o,"$")}</td>
+      <td class="n">${fmtV(v,"$")}</td><td class="n">${deltaHTML(o,v,"good-down")}</td></tr>`).join("")
+  }</tbody></table>` : `<div class="empty">No items match these filters.</div>`;
+  applySearch();
+}
+$("#priceDir").addEventListener("click", e => {
+  const c = e.target.closest(".chip"); if (!c) return;
+  if (c.dataset.d){ pDir = c.dataset.d; $$("#priceDir [data-d]").forEach(x => x.setAttribute("aria-pressed", x === c)); }
+  if (c.dataset.c){ pCat = c.dataset.c; $$("#priceDir [data-c]").forEach(x => x.setAttribute("aria-pressed", x === c)); }
+  renderPrices();
+});
+
+/* ================= XP ================= */
 const XP = [
   [10,35000,25000,29],[15,110000,54750,50],[20,250000,111500,55],
   [25,365000,206600,43],[30,500000,318200,36],[35,750000,525000,30],
   [40,975000,712500,27],[45,1225000,920850,25],[50,1500000,1150000,23]
 ];
+$("#xpTable").innerHTML = `<div class="xp-row xp-head"><div>Level</div><div class="bars-h">Total XP</div><div>S1 → S2</div><div style="text-align:right">Faster</div></div>` +
+  XP.map(([lv,o,n,pct]) => `<div class="xp-row"><div class="xp-lvl">${lv}</div>
+    <div class="bars"><div class="bar old"><i style="width:${o/15000}%"></i></div><div class="bar new"><i style="width:${n/15000}%"></i></div></div>
+    <div class="xp-num"><s>${num(o)}</s><br>${num(n)}</div><div class="xp-pct">−${pct}%</div></div>`).join("");
 
+/* ================= ROLE TRACKS =================
+   t: n new, m moved in, c changed · l new level (0 default, null unchanged) · o old level · p/op price $k */
 const ROLES = [
 { id:"wardog", name:"WARDOG",
   brief:"Supply pallets now have to be unlocked, the Judge and GGX 17 swap places, and WARDOG picks up two optics from Assault plus the Gold Market.",
   items:[
     {n:"Compact P-1 Red Dot",t:"n",l:21,p:12.5},
-    {n:"Music Tape: “Blue (Da Ba Dee)” – Eiffel 65",t:"n",l:29,p:25,note:"Lonestar only"},
+    {n:"Music Tape: Blue (Da Ba Dee) – Eiffel 65",t:"n",l:29,p:25,note:"Lonestar only"},
     {n:"Gold Market",t:"n",l:35,p:150},
     {n:"Tricon 1.5x Compact Prism Scope",t:"m",l:26,from:"Assault LVL 12"},
     {n:"Spitfire 3X",t:"m",l:31,from:"Assault LVL 26"},
@@ -239,7 +964,7 @@ const ROLES = [
   out:["SPH-2 → Driver LVL 31","2.5x Combat Optic → Assault LVL 17","3x Tactical Prism Scope → Assault LVL 33"]
 },
 { id:"assault", name:"Assault",
-  brief:"Assault is now the base-breaker. C4 moves over from Support and the new Molotov Cocktail joins it. The TCX-SPR takes the M4's old LVL 20 slot.",
+  brief:"Assault is now the base-breaker: C4 moves over from Support and the new Molotov joins it. The TCX-SPR takes the M4's old LVL 20 slot.",
   items:[
     {n:"Molotov Cocktail",t:"n",l:13,p:25},
     {n:"TCX-SPR + TCX-SPR 28 RND Magazine",t:"n",l:20,p:100},
@@ -274,7 +999,7 @@ const ROLES = [
   out:["Tricon 1.5x Compact Prism Scope → WARDOG LVL 26","Spitfire 3X → WARDOG LVL 31","Holographic Sight → Medic LVL 6","AFG Angled Foregrip → Medic LVL 11","4x Combat Prism Scope with Reflex → Support LVL 21"]
 },
 { id:"medic", name:"Medic",
-  brief:"The Medical Bag drops from LVL 24 to LVL 14. Medic also gets the biggest weapon and attachment reshuffle of any track, and the MP5 now comes at LVL 4.",
+  brief:"The Medical Bag drops from LVL 24 to LVL 14, the MP5 now comes at LVL 4, and Medic gets the biggest weapon and attachment reshuffle of any track.",
   items:[
     {n:"PP-19 Bizon + PP-19 Bizon 53 RND Magazine",t:"n",l:0,p:0},
     {n:"AMP-9 + AMP-9 15 RND Magazine",t:"n",l:20,p:75,note:"AMP-9 was default; 15 RND mag was LVL 3"},
@@ -311,7 +1036,7 @@ const ROLES = [
   out:["Four Reticle Reflex → Assault LVL 22","RVG Vertical Foregrip → Assault LVL 38"]
 },
 { id:"recon", name:"Recon",
-  brief:"Recon gets the new M14 and a full set of attachments for it. Most scopes and muzzle devices have swapped levels.",
+  brief:"Recon gets the new M14 with a full set of attachments, and most scopes and muzzle devices have swapped levels.",
   items:[
     {n:"PU 91/30 Scope (Mosin)",t:"n",l:10,p:12.5},
     {n:"M14 + M14 10 RND Magazine",t:"n",l:25,p:100},
@@ -379,8 +1104,7 @@ const ROLES = [
     {n:"Z20 Lakota [Miniguns]",t:"c",l:null,op:75,p:85},
     {n:"Havoc",t:"c",l:null,op:500,p:650}
   ],
-  notes:["Music tapes reshuffled between the Driver and Pilot tracks"],
-  out:[]
+  notes:["Music tapes reshuffled between the Driver and Pilot tracks"], out:[]
 },
 { id:"driver", name:"Driver",
   brief:"More armed vehicles before the L2A6: the Wolf-110 [M2 Browning], the T-72B3 and the Flakpanzer Gepard. The SPH-2 drops from WARDOG LVL 90 to Driver LVL 31.",
@@ -389,7 +1113,7 @@ const ROLES = [
     {n:"Wolf-110 [M2 Browning]",t:"n",l:16,p:125},
     {n:"T-72B3",t:"n",l:20,p:250},
     {n:"Flakpanzer Gepard",t:"n",l:25,p:300},
-    {n:"Music Tape: “Dyshat'” – Baryber",t:"n",l:33,p:25},
+    {n:"Music Tape: Dyshat' – Baryber",t:"n",l:33,p:25},
     {n:"SPH-2",t:"m",l:31,from:"WARDOG LVL 90",op:500,p:350},
     {n:"Dune Buggy",t:"c",o:8,l:9},
     {n:"Humvee",t:"c",o:15,l:14,op:25,p:75},
@@ -398,148 +1122,158 @@ const ROLES = [
     {n:"Ural Defender [M249]",t:"c",o:25,l:22,op:125,p:100},
     {n:"Humvee [M249]",t:"c",o:20,l:24}
   ],
-  notes:["Music tapes reshuffled between the Driver and Pilot tracks"],
-  out:[]
+  notes:["Music tapes reshuffled between the Driver and Pilot tracks"], out:[]
 }
 ];
 
-/* ===== HELPERS ===== */
-const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const money = v => v === 0 ? "Free" : "$" + v + "k";
 const lvlTxt = v => v === 0 ? "Default" : "LVL " + v;
-const num = n => n.toLocaleString("en-US");
-
 function dir(it){
   if (it.t !== "c" || it.o == null || it.l == null) return null;
-  if (it.l < it.o) return "earlier";
-  if (it.l > it.o) return "later";
-  return null;
+  return it.l < it.o ? "earlier" : it.l > it.o ? "later" : null;
 }
-
-/* ===== HERO STATS ===== */
-(function(){
-  const all = ROLES.flatMap(r => r.items);
-  const s = [
-    [all.length, "Changes"],
-    [all.filter(i => i.t === "n").length, "New unlocks"],
-    [all.filter(i => dir(i) === "earlier").length, "Unlock earlier"],
-    ["−55%", "XP to LVL 20"]
-  ];
-  $("#stats").innerHTML = s.map(([b, t]) => `<div class="stat"><b>${b}</b><small>${t}</small></div>`).join("");
-})();
-
-/* ===== XP TABLE ===== */
-(function(){
-  const max = 1500000;
-  let h = `<div class="xp-row xp-head"><div>Level</div><div class="bars-h">Total XP</div><div>Old → New</div><div style="text-align:right">Faster</div></div>`;
-  for (const [lv, o, n, pct] of XP){
-    h += `<div class="xp-row">
-      <div class="xp-lvl">${lv}</div>
-      <div class="bars">
-        <div class="bar old"><i style="width:${o/max*100}%"></i></div>
-        <div class="bar new"><i style="width:${n/max*100}%"></i></div>
-      </div>
-      <div class="xp-num"><s>${num(o)}</s><br>${num(n)}</div>
-      <div class="xp-pct">−${pct}%</div>
-    </div>`;
-  }
-  $("#xpTable").innerHTML = h;
-})();
-
-/* ===== TRACKS ===== */
-let current = ROLES[0].id, filter = "all", query = "";
+let current = "wardog", tFilter = "all", Q = "";
 
 function renderTabs(){
   $("#tabs").innerHTML = ROLES.map(r =>
-    `<button class="tab" role="tab" data-id="${r.id}" aria-selected="${r.id===current}">${esc(r.name)}<small>${r.items.length}</small></button>`
-  ).join("");
+    `<button class="tab" role="tab" data-id="${r.id}" aria-selected="${!Q && r.id===current}">${esc(r.name)}<small>${r.items.length}</small></button>`).join("");
 }
-
 function rowHTML(it){
-  const d = dir(it);
-  const tagTxt = {n:"New", m:"Moved in", c:"Changed"}[it.t];
-  const meta = [];
+  const d = dir(it), meta = [];
   if (it.t === "m") meta.push(`From ${esc(it.from)}`);
   if (it.t === "c" && it.o != null && it.l != null){
-    const diff = Math.abs(it.l - it.o);
     let dTxt = "";
     if (it.o === 0) dTxt = `<span class="down">▲ no longer default</span>`;
     else if (it.l === 0) dTxt = `<span class="up">▼ now default</span>`;
-    else if (d) dTxt = `<span class="${d==="earlier"?"up":"down"}">${d==="earlier"?"▼":"▲"} ${diff} ${d}</span>`;
+    else if (d) dTxt = `<span class="${d==="earlier"?"up":"down"}">${d==="earlier"?"▼":"▲"} ${Math.abs(it.l-it.o)} ${d}</span>`;
     meta.push(`${lvlTxt(it.o)} → ${lvlTxt(it.l)}`, dTxt);
   }
   if (it.t === "c" && it.l == null) meta.push("Level unchanged");
-  if (it.op != null){
-    const cls = it.p < it.op ? "up" : "down";
-    meta.push(`<span class="${cls}">${money(it.op)} → ${money(it.p)}</span>`);
-  }
+  if (it.op != null) meta.push(`<span class="${it.p < it.op ? "up" : "down"}">${money(it.op)} → ${money(it.p)}</span>`);
   if (it.note) meta.push(esc(it.note));
-
-  const lvlCls = it.l === 0 ? "def" : it.l == null ? "unk" : "";
-  const lvlN = it.l === 0 ? "DEF" : it.l == null ? "—" : it.l;
-  return `<li class="row">
-    <div class="lvl ${lvlCls}"><span class="lvl-k">LVL</span><span class="lvl-n">${lvlN}</span></div>
-    <div>
-      <div class="name">${esc(it.n)} <span class="tag tag-${it.t}">${tagTxt}</span></div>
-      ${meta.length ? `<div class="meta">${meta.filter(Boolean).map(m=>`<span>${m}</span>`).join("")}</div>` : ""}
-    </div>
-    <div class="price">${it.p != null ? money(it.p) : ""}</div>
-  </li>`;
+  const lc = it.l === 0 ? "def" : it.l == null ? "unk" : "";
+  const ln = it.l === 0 ? "DEF" : it.l == null ? "—" : it.l;
+  const tag = {n:"New",m:"Moved in",c:"Changed"}[it.t];
+  return `<li class="row"><div class="lvl ${lc}"><span class="lvl-k">LVL</span><span class="lvl-n">${ln}</span></div>
+    <div><div class="name">${esc(it.n)} <span class="tag tag-${it.t}">${tag}</span></div>
+    ${meta.filter(Boolean).length ? `<div class="meta">${meta.filter(Boolean).map(m=>`<span>${m}</span>`).join("")}</div>` : ""}</div>
+    <div class="price">${it.p != null ? money(it.p) : ""}</div></li>`;
 }
-
-function matches(it){
-  if (query && !it.n.toLowerCase().includes(query)) return false;
-  if (filter === "all") return true;
-  if (filter === "n" || filter === "m") return it.t === filter;
-  if (filter === "price") return it.op != null;
-  return dir(it) === filter;
+function tMatch(it){
+  if (Q && !it.n.toLowerCase().includes(Q)) return false;
+  if (tFilter === "all") return true;
+  if (tFilter === "n" || tFilter === "m") return it.t === tFilter;
+  if (tFilter === "price") return it.op != null;
+  return dir(it) === tFilter;
 }
-
+const byLvl = (a,b) => ((a.l ?? 1e9) - (b.l ?? 1e9)) || a.n.localeCompare(b.n);
 function renderPanel(){
-  const r = ROLES.find(x => x.id === current);
-  const items = r.items.filter(matches).sort((a, b) => {
-    const A = a.l == null ? 1e9 : a.l, B = b.l == null ? 1e9 : b.l;
-    return A - B || a.n.localeCompare(b.n);
-  });
-
-  let list = "", band = null;
-  for (const it of items){
-    const b = it.l == null ? "Level unchanged · price only"
-            : it.l === 0 ? "Unlocked by default"
-            : `LVL ${Math.floor(it.l/10)*10 || 1}–${Math.floor(it.l/10)*10 + 9}`;
-    if (b !== band){ list += `<li class="band">${b}</li>`; band = b; }
-    list += rowHTML(it);
+  let html = "";
+  if (Q){
+    // search mode: results from every track, grouped by role
+    for (const r of ROLES){
+      const items = r.items.filter(tMatch).sort(byLvl);
+      if (!items.length) continue;
+      html += `<li class="band">${esc(r.name)} track</li>` + items.map(rowHTML).join("");
+    }
+    $("#panel").innerHTML = html ? `<ul class="list">${html}</ul>` : `<div class="empty" data-empty>No track unlocks match “${esc(Q)}”.</div>`;
+    return;
   }
-
+  const r = ROLES.find(x => x.id === current);
+  let band = null;
+  for (const it of r.items.filter(tMatch).sort(byLvl)){
+    const b = it.l == null ? "Level unchanged · price only" : it.l === 0 ? "Unlocked by default"
+            : `LVL ${Math.floor(it.l/10)*10 || 1}–${Math.floor(it.l/10)*10 + 9}`;
+    if (b !== band){ html += `<li class="band">${b}</li>`; band = b; }
+    html += rowHTML(it);
+  }
   $("#panel").innerHTML = `
     <div class="role-brief"><h3>${esc(r.name)} Track</h3><p>${esc(r.brief)}</p></div>
-    <ul class="list">${list || `<li class="empty">No matching changes in this track.</li>`}</ul>
-    ${r.out && r.out.length ? `<div class="out"><b>MOVED OUT OF ${esc(r.name.toUpperCase())}</b><ul>${r.out.map(o=>`<li>${esc(o)}</li>`).join("")}</ul></div>` : ""}
-    ${r.notes ? `<ul class="notes">${r.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>` : ""}
-  `;
+    <ul class="list">${html || `<li class="empty">No matching changes in this track.</li>`}</ul>
+    ${r.out.length ? `<div class="out"><b>MOVED OUT OF ${esc(r.name.toUpperCase())}</b><ul>${r.out.map(o=>`<li>${esc(o)}</li>`).join("")}</ul></div>` : ""}
+    ${r.notes ? `<ul class="notes">${r.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>` : ""}`;
 }
-
-function select(id){
-  if (!ROLES.some(r => r.id === id)) id = ROLES[0].id;
+function selectTrack(id, scroll){
+  if (!ROLES.some(r => r.id === id)) return false;
   current = id;
+  if (Q){ $("#q").value = ""; Q = ""; applySearch(); }
   renderTabs(); renderPanel();
-  if (location.hash.slice(1) !== id) history.replaceState(null, "", "#" + id);
+  if (scroll) $("#progression").scrollIntoView();
+  return true;
 }
-
 $("#tabs").addEventListener("click", e => {
-  const b = e.target.closest(".tab"); if (b) select(b.dataset.id);
+  const b = e.target.closest(".tab"); if (!b) return;
+  selectTrack(b.dataset.id);
+  history.replaceState(null, "", "#" + b.dataset.id);
 });
-$("#toolbar").addEventListener("click", e => {
+$("#trackChips").addEventListener("click", e => {
   const c = e.target.closest(".chip"); if (!c) return;
-  filter = c.dataset.f;
-  document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", x === c));
+  tFilter = c.dataset.f;
+  $$("#trackChips .chip").forEach(x => x.setAttribute("aria-pressed", x === c));
   renderPanel();
 });
-$("#search").addEventListener("input", e => { query = e.target.value.trim().toLowerCase(); renderPanel(); });
-window.addEventListener("hashchange", () => select(location.hash.slice(1)));
 
-select(location.hash.slice(1) || ROLES[0].id);
+/* ================= GLOBAL SEARCH ================= */
+function applySearch(){
+  const q = Q;
+  let hits = 0;
+  $$("main section").forEach(sec => {
+    if (sec.id === "progression"){
+      const n = q ? $$("#panel .row").length : 0;
+      hits += n;
+      // keep progression visible when searching only if tracks have hits
+      const xpHit = q && "xp level experience".includes(q);
+      sec.hidden = !!q && !n && !xpHit;
+      return;
+    }
+    let secAny = false;
+    sec.querySelectorAll(".card").forEach(card => {
+      const rows = [...card.querySelectorAll("li, tbody tr, .feat, .cal")];
+      if (!q){ rows.forEach(r => r.hidden = false); card.hidden = false; secAny = true; return; }
+      const title = (card.querySelector("h3")?.textContent || "").toLowerCase();
+      const titleHit = title.includes(q);
+      let any = false;
+      rows.forEach(r => {
+        const hit = titleHit || r.textContent.toLowerCase().includes(q);
+        r.hidden = !hit; if (hit){ any = true; if (!titleHit) hits++; }
+      });
+      const textHit = !rows.length && card.textContent.toLowerCase().includes(q);
+      if (titleHit) hits++;
+      if (textHit) hits++;
+      card.hidden = !(titleHit || any || textHit);
+      if (!card.hidden) secAny = true;
+    });
+    sec.hidden = !!q && !secAny;
+  });
+  $("#hits").textContent = q ? (hits ? hits + " hit" + (hits === 1 ? "" : "s") : "0 hits") : "";
+  $("#noHits").hidden = !q || hits > 0;
+}
+let st;
+$("#q").addEventListener("input", e => {
+  clearTimeout(st);
+  st = setTimeout(() => {
+    Q = e.target.value.trim().toLowerCase();
+    renderTabs(); renderPanel(); applySearch();
+    if (Q) window.scrollTo({top: $("nav").offsetTop + 1});
+  }, 120);
+});
+
+/* ================= NAV HIGHLIGHT ================= */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting){
+      $$("#links a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id));
+    }
+  });
+}, {rootMargin:"-40% 0px -55% 0px"});
+$$("main section").forEach(s => io.observe(s));
+
+/* ================= INIT ================= */
+renderTabs(); renderPanel(); renderPrices();
+// deep links: #medic etc. open that track
+const h = location.hash.slice(1);
+if (ROLES.some(r => r.id === h)) setTimeout(() => selectTrack(h, true), 0);
+window.addEventListener("hashchange", () => { selectTrack(location.hash.slice(1), true); });
 </script>
 </body>
 </html>
