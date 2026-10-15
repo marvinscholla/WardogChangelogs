@@ -85,6 +85,7 @@ section{padding:48px 0 4px}
 .tag-m{color:var(--blue);border-color:var(--blue)}
 .tag-c{color:var(--muted);border-color:var(--line2)}
 .tag-r{color:var(--red);border-color:var(--red)}
+.tag-u{color:var(--muted);border-color:var(--line2);border-style:dashed}
 .up{color:var(--green)} .down{color:var(--red)} .neu{color:var(--amber)}
 
 /* FEATURE CARDS */
@@ -159,6 +160,7 @@ table.t tbody tr:hover{background:rgba(111,125,60,.07)}
 .row{display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
 .row:last-child{border-bottom:0}
 .row:hover{background:rgba(111,125,60,.07)}
+.row-u .name,.row-u .lvl-n,.row-u .price{color:var(--muted)}
 .lvl{width:64px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--line2);background:var(--bg)}
 .lvl-k{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px}
 .lvl-n{font-family:var(--stencil);font-size:24px;line-height:1}
@@ -617,6 +619,8 @@ footer{margin-top:56px;border-top:1px solid var(--line);padding:22px 0 40px;font
     <button class="chip" data-f="earlier">Earlier</button>
     <button class="chip" data-f="later">Later</button>
     <button class="chip" data-f="price">Price change</button>
+    <button class="chip" data-f="changed">Changes only</button>
+    <button class="chip" data-f="u">Unchanged</button>
   </div>
   <div id="panel"></div>
 </section>
@@ -751,7 +755,7 @@ footer{margin-top:56px;border-top:1px solid var(--line);padding:22px 0 40px;font
 </main>
 
 <footer>
-  <div class="wrap">Unofficial fan reference compiled from the official WARDOGS Season 2 patch notes. Track items marked “—” keep their previous level, since only their price changed. Unlock prices ($k) are role track unlocks; vendor prices are per-match purchase costs.</div>
+  <div class="wrap">Unofficial fan reference compiled from the official WARDOGS Season 2 patch notes. Track unlocks the patch notes don't mention are filled in at their Season 1 level and price from the <a href="https://github.com/warpuppies/wardogs-data" style="color:var(--amber)">wardogs-data</a> game files (build 25677108); music tapes are left out because they were reshuffled. Unlock prices ($k) are role track unlocks; vendor prices are per-match purchase costs.</div>
 </footer>
 <div class="hazard"></div>
 <a class="top" href="#top">▲ TOP</a>
@@ -931,7 +935,7 @@ $("#xpTable").innerHTML = `<div class="xp-row xp-head"><div>Level</div><div clas
     <div class="xp-num"><s>${num(o)}</s><br>${num(n)}</div><div class="xp-pct">−${pct}%</div></div>`).join("");
 
 /* ================= ROLE TRACKS =================
-   t: n new, m moved in, c changed · l new level (0 default, null unchanged) · o old level · p/op price $k */
+   t: n new, m moved in, c changed, u unchanged · l new level (0 default) · same: level unchanged · o old level · p/op price $k */
 const ROLES = [
 { id:"wardog", name:"WARDOG",
   brief:"Supply pallets now have to be unlocked, the Judge and GGX 17 swap places, and WARDOG picks up two optics from Assault plus the Gold Market.",
@@ -961,6 +965,17 @@ const ROLES = [
     {n:"5.56mm Armor Piercing (AP)",t:"c",o:83,l:84},
     {n:"5.45x39mm Armor Piercing (AP)",t:"c",o:93,l:90}
   ],
+  keep:[
+    [3,"Level 1 Armor",10],[3,"Level 1 Helmet",7.5],[11,"7.62x39mm Flesh Damage (HP)",5],[12,"Field Backpack",20],
+    [14,"Medium Tac Vest",10],[15,"RK6 Tactical Foregrip",7.5],[20,"Medium Backpack",25],[23,"GGX 33 RND Magazine",10],
+    [25,".45 Colt Flesh Damage (HP)",5],[28,"7.62x54mmR Flesh Damage (HP)",5],[30,"Level 2 Armor",50],[30,"Level 2 Helmet",37.5],
+    [32,"Assault Backpack",50],[33,"45° Angled Foregrip",15],[38,"Mini Angled Foregrip",12.5],[40,"M1911 + M1911 7 RND Magazine",25],
+    [43,".45 ACP Pistol Compensator",15],[45,"High Capacity Battery",50],[48,".45 ACP Flesh Damage (HP)",5],[50,"Large Tac Vest",25],
+    [53,"M1911 10 RND Magazine",10],[55,"Large Backpack",100],[58,"TDG Vertical Foregrip",25],[73,"Large Backpack + Sling",125],
+    [75,"9x19mm Armor Piercing (AP)",75],[80,"GGX 50 RND Drum Magazine",50],[82,"7.62x54mmR Armor Piercing (AP)",75],[95,".50 AE Flesh Damage (HP)",5],
+    [100,"Level 4 Armor",200],[100,"Level 4 Helmet",150],[110,".45 Colt Armor Piercing (AP)",75],[120,".45 ACP Armor Piercing (AP)",75],
+    [130,".50 AE Armor Piercing (AP)",75],[140,".308 Win Armor Piercing (AP)",75],[150,"Large Backpack + 2 Slings",175]
+  ],
   out:["SPH-2 → Driver LVL 31","2.5x Combat Optic → Assault LVL 17","3x Tactical Prism Scope → Assault LVL 33"]
 },
 { id:"assault", name:"Assault",
@@ -981,7 +996,7 @@ const ROLES = [
     {n:"T-21",t:"c",o:0,l:3,p:10},
     {n:"STANAG 30 RND Magazine",t:"c",o:6,l:3,op:10,p:0,note:"comes with the T-21"},
     {n:"M4",t:"c",o:20,l:28,op:100,p:150},
-    {n:"FAL",t:"c",l:null,op:200,p:250},
+    {n:"FAL",t:"c",l:35,same:1,op:200,p:250},
     {n:"AK74 75 RND Drum Magazine",t:"c",o:40,l:36},
     {n:"Birdcage Flash Hider",t:"c",o:16,l:2,op:15,p:5},
     {n:"Hexagon Brake",t:"c",o:2,l:5,op:5,p:12.5},
@@ -995,6 +1010,10 @@ const ROLES = [
     {n:"OKP 7 Reflex",t:"c",o:33,l:26},
     {n:"TGP-A Suppressor 5.45",t:"c",o:19,l:27},
     {n:"AR Multi-Caliber Suppressor",t:"c",o:21,l:29,op:20,p:22.5}
+  ],
+  keep:[
+    [10,"Galil + Galil 35 RND Magazine",35],[11,"Rubberized Ergonomic Foregrip",7.5],[15,"Galil 50 RND Magazine",25],[25,"AK74 60 RND Magazine",30],
+    [30,"STANAG 60 RND Magazine",25],[45,"3-Chamber Brake",45],[48,"Shift Foregrip",30],[50,"FAL 30 RND Magazine",50]
   ],
   out:["Tricon 1.5x Compact Prism Scope → WARDOG LVL 26","Spitfire 3X → WARDOG LVL 31","Holographic Sight → Medic LVL 6","AFG Angled Foregrip → Medic LVL 11","4x Combat Prism Scope with Reflex → Support LVL 21"]
 },
@@ -1010,7 +1029,7 @@ const ROLES = [
     {n:"Medical Bag",t:"c",o:24,l:14,op:75,p:50},
     {n:"PP-19 Vityaz",t:"c",o:4,l:15,op:25,p:50},
     {n:"Defibrillator",t:"c",o:11,l:22,op:50,p:110},
-    {n:"Super-45",t:"c",l:null,op:150,p:200},
+    {n:"Super-45",t:"c",l:35,same:1,op:150,p:200},
     {n:"Individual First Aid Kit",t:"c",o:9,l:10},
     {n:"Adrenaline Pen",t:"c",o:14,l:16},
     {n:"M18 Smoke Grenade: Black",t:"c",o:21,l:23},
@@ -1033,6 +1052,9 @@ const ROLES = [
     {n:"Super-45 30 RND Magazine",t:"c",o:38,l:43},
     {n:"AMP-9 50 RND Drum Magazine",t:"c",o:20,l:45,op:15,p:75}
   ],
+  keep:[
+    [2,"Field Resuscitator",10],[5,"M18 Smoke Grenade: White",7.5],[48,"SG Multi-Caliber Suppressor",50],[50,"Super-45 40 RND Drum Magazine",50]
+  ],
   out:["Four Reticle Reflex → Assault LVL 22","RVG Vertical Foregrip → Assault LVL 38"]
 },
 { id:"recon", name:"Recon",
@@ -1053,16 +1075,16 @@ const ROLES = [
     {n:"Ghillie Headwear & Body Suit (Dead)",t:"c",o:27,l:41},
     {n:"Compound Bow",t:"c",o:17,l:16,op:75,p:150},
     {n:"Claymore",t:"c",o:22,l:23,op:50,p:90},
-    {n:"Range Finder",t:"c",l:null,op:15,p:25},
+    {n:"Range Finder",t:"c",l:8,same:1,op:15,p:25},
     {n:"SVD 10 RND Magazine",t:"c",o:16,l:17},
     {n:"Deadeye Flash Hider",t:"c",o:9,l:6},
     {n:"DTK-1 Brake",t:"c",o:6,l:9},
     {n:"6-10x Scope MOA",t:"c",o:26,l:19},
-    {n:"SV98 Bipod",t:"c",l:null,op:30,p:17.5},
+    {n:"SV98 Bipod",t:"c",l:21,same:1,op:30,p:17.5},
     {n:"SRVV Brake",t:"c",o:20,l:22},
     {n:"BMR-308 Flash Hider",t:"c",o:31,l:24,op:25,p:50},
     {n:"6-10x Scope MRAD",t:"c",o:18,l:28},
-    {n:"BMR-308 Suppressor",t:"c",l:null,op:27.5,p:25},
+    {n:"BMR-308 Suppressor",t:"c",l:33,same:1,op:27.5,p:25},
     {n:"Constrictor Brake",t:"c",o:23,l:34},
     {n:"AMR 50 Cal Muzzle Brake",t:"c",o:48,l:38},
     {n:"6x Marksman Scope + Reflex",t:"c",o:34,l:43,op:35,p:75},
@@ -1070,6 +1092,13 @@ const ROLES = [
     {n:"Frontier 2.5x-10x Precision Scope",t:"c",o:43,l:47},
     {n:".50 Cal Heavy Suppressor",t:"c",o:37,l:48},
     {n:"Three Port Brake",t:"c",o:36,l:49}
+  ],
+  keep:[
+    [2,"Monocular",7.5],[3,"STRELIX Suppressor",7.5],[5,"SKS",25],[7,"SKS Bipod",10],
+    [10,"Mosin Nagant",50],[11,"1x-6x LPVO Short Dot",15],[12,"SVD + SVD 5 RND Magazine",50],[13,"SVD 7.62x54R Brake",10],
+    [14,"SVD Bipod",10],[15,"Hexagon 762 Suppressor",15],[32,"Infrared Range Finder",50],[35,"AMR 50 + AMR 50 5 RND Magazine",200],
+    [39,"MK22 Standard Mag",35],[40,"Flow-Through .308 Suppressor",30],[45,"GOL Multi-Caliber Suppressor",32.5],[46,"Pro Tilt Bipod",50],
+    [50,"AMR 50 10 RND Magazine",50]
   ],
   out:[]
 },
@@ -1083,8 +1112,8 @@ const ROLES = [
     {n:"PKM",t:"c",o:30,l:15,op:150,p:100},
     {n:"M249",t:"c",o:15,l:20,op:100,p:150},
     {n:"MAAWS",t:"c",o:20,l:18,op:125,p:100},
-    {n:"MGL-40",t:"c",l:null,op:200,p:250},
-    {n:"Heavy Drill",t:"c",l:null,op:25,p:50},
+    {n:"MGL-40",t:"c",l:35,same:1,op:200,p:250},
+    {n:"Heavy Drill",t:"c",l:28,same:1,op:25,p:50},
     {n:"9K333 Verba",t:"c",o:16,l:14},
     {n:"Improved Cylinder Choke",t:"c",o:14,l:13},
     {n:"Full Choke",t:"c",o:19,l:16},
@@ -1095,14 +1124,22 @@ const ROLES = [
     {n:"Tread Brake",t:"c",o:17,l:27},
     {n:"12 Gauge Suppressor",t:"c",o:40,l:32}
   ],
+  keep:[
+    [1,"Light Drill",10],[3,"Medium Hammer",25],[5,"RPG-7 + 93mm",30],[8,"Large Hammer",75],
+    [10,"M500",50],[11,"M500 Sabre Brake",17.5],[12,"PGO-7",10],[25,"AT Mine",75],
+    [45,"Orpheus Max Brake",40],[50,"Grip Pod",50]
+  ],
   out:["Remote Detonator + C4 Charge → Assault LVL 4","Spectr 4x → Assault LVL 43"]
 },
 { id:"pilot", name:"Pilot",
   brief:"The Little Bird AH-6M [Miniguns] was too strong for how early it unlocked, so it now comes later and costs more.",
   items:[
     {n:"Little Bird AH-6M [Miniguns]",t:"c",o:4,l:8,op:50,p:125},
-    {n:"Z20 Lakota [Miniguns]",t:"c",l:null,op:75,p:85},
-    {n:"Havoc",t:"c",l:null,op:500,p:650}
+    {n:"Z20 Lakota [Miniguns]",t:"c",l:25,same:1,op:75,p:85},
+    {n:"Havoc",t:"c",l:35,same:1,op:500,p:650}
+  ],
+  keep:[
+    [2,"Small Armoured Supply Crate",10],[10,"Z20 Lakota",35],[15,"Large Armoured Supply Crate",25],[20,"AH-6R [Rockets]",250]
   ],
   notes:["Music tapes reshuffled between the Driver and Pilot tracks"], out:[]
 },
@@ -1122,11 +1159,17 @@ const ROLES = [
     {n:"Ural Defender [M249]",t:"c",o:25,l:22,op:125,p:100},
     {n:"Humvee [M249]",t:"c",o:20,l:24}
   ],
+  keep:[
+    [3,"Ural",35],[6,"Kodiak [M249]",50],[10,"Kodiak [Pickup]",35],[30,"Humvee [Minigun]",150],
+    [35,"L2A6",500]
+  ],
   notes:["Music tapes reshuffled between the Driver and Pilot tracks"], out:[]
 }
 ];
+// keep: unlocks the patch notes don't touch, at their Season 1 level [level, name, price $k]
+for (const r of ROLES) for (const [l,n,p] of r.keep || []) r.items.push({n,t:"u",l,p});
 
-const money = v => v === 0 ? "Free" : "$" + v + "k";
+const money = v =>v === 0 ? "Free" : "$" + v + "k";
 const lvlTxt = v => v === 0 ? "Default" : "LVL " + v;
 function dir(it){
   if (it.t !== "c" || it.o == null || it.l == null) return null;
@@ -1136,7 +1179,7 @@ let current = "wardog", tFilter = "all", Q = "";
 
 function renderTabs(){
   $("#tabs").innerHTML = ROLES.map(r =>
-    `<button class="tab" role="tab" data-id="${r.id}" aria-selected="${!Q && r.id===current}">${esc(r.name)}<small>${r.items.length}</small></button>`).join("");
+    `<button class="tab" role="tab" data-id="${r.id}" aria-selected="${!Q && r.id===current}">${esc(r.name)}<small>${r.items.filter(it => it.t !== "u").length}</small></button>`).join("");
 }
 function rowHTML(it){
   const d = dir(it), meta = [];
@@ -1148,13 +1191,13 @@ function rowHTML(it){
     else if (d) dTxt = `<span class="${d==="earlier"?"up":"down"}">${d==="earlier"?"▼":"▲"} ${Math.abs(it.l-it.o)} ${d}</span>`;
     meta.push(`${lvlTxt(it.o)} → ${lvlTxt(it.l)}`, dTxt);
   }
-  if (it.t === "c" && it.l == null) meta.push("Level unchanged");
+  if (it.t === "c" && (it.same || it.l == null)) meta.push("Level unchanged");
   if (it.op != null) meta.push(`<span class="${it.p < it.op ? "up" : "down"}">${money(it.op)} → ${money(it.p)}</span>`);
   if (it.note) meta.push(esc(it.note));
   const lc = it.l === 0 ? "def" : it.l == null ? "unk" : "";
   const ln = it.l === 0 ? "DEF" : it.l == null ? "—" : it.l;
-  const tag = {n:"New",m:"Moved in",c:"Changed"}[it.t];
-  return `<li class="row"><div class="lvl ${lc}"><span class="lvl-k">LVL</span><span class="lvl-n">${ln}</span></div>
+  const tag = {n:"New",m:"Moved in",c:"Changed",u:"Unchanged"}[it.t];
+  return `<li class="row${it.t === "u" ? " row-u" : ""}"><div class="lvl ${lc}"><span class="lvl-k">LVL</span><span class="lvl-n">${ln}</span></div>
     <div><div class="name">${esc(it.n)} <span class="tag tag-${it.t}">${tag}</span></div>
     ${meta.filter(Boolean).length ? `<div class="meta">${meta.filter(Boolean).map(m=>`<span>${m}</span>`).join("")}</div>` : ""}</div>
     <div class="price">${it.p != null ? money(it.p) : ""}</div></li>`;
@@ -1162,7 +1205,8 @@ function rowHTML(it){
 function tMatch(it){
   if (Q && !it.n.toLowerCase().includes(Q)) return false;
   if (tFilter === "all") return true;
-  if (tFilter === "n" || tFilter === "m") return it.t === tFilter;
+  if (tFilter === "n" || tFilter === "m" || tFilter === "u") return it.t === tFilter;
+  if (tFilter === "changed") return it.t !== "u";
   if (tFilter === "price") return it.op != null;
   return dir(it) === tFilter;
 }
