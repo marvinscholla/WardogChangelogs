@@ -157,10 +157,12 @@ table.t tbody tr:hover{background:rgba(111,125,60,.07)}
 .list{list-style:none;border:1px solid var(--line);background:var(--panel)}
 .band{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;padding:6px 16px;background:var(--panel2);border-bottom:1px solid var(--line);border-top:1px solid var(--line)}
 .list > .band:first-child{border-top:0}
-.row{display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
+.row{display:grid;grid-template-columns:76px 72px 1fr auto;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
 .row:last-child{border-bottom:0}
 .row:hover{background:rgba(111,125,60,.07)}
 .row-u .name,.row-u .lvl-n,.row-u .price{color:var(--muted)}
+.ico{width:72px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--line);border:1px solid var(--line2)}
+.ico img{width:64px;height:32px;object-fit:contain;filter:drop-shadow(0 0 1px rgba(220,217,198,.35))}
 .lvl{width:64px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--line2);background:var(--bg)}
 .lvl-k{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px}
 .lvl-n{font-family:var(--stencil);font-size:24px;line-height:1}
@@ -190,9 +192,11 @@ footer{margin-top:56px;border-top:1px solid var(--line);padding:22px 0 40px;font
   .grid{grid-template-columns:1fr}
   .xp-row{grid-template-columns:56px 1fr 64px;gap:10px}
   .xp-row .bars,.xp-head .bars-h{display:none}
-  .row{grid-template-columns:60px 1fr;gap:10px}
+  .row{grid-template-columns:60px 56px 1fr;gap:10px}
   .lvl{width:56px}
-  .price{grid-column:2;text-align:left;font-size:14px;color:var(--amber)}
+  .ico{width:56px;height:32px}
+  .ico img{width:50px;height:25px}
+  .price{grid-column:3;text-align:left;font-size:14px;color:var(--amber)}
   .cal{grid-template-columns:110px 1fr 48px}
   html{scroll-padding-top:110px}
 }
@@ -755,7 +759,7 @@ footer{margin-top:56px;border-top:1px solid var(--line);padding:22px 0 40px;font
 </main>
 
 <footer>
-  <div class="wrap">Unofficial fan reference compiled from the official WARDOGS Season 2 patch notes. Track unlocks the patch notes don't mention are filled in at their Season 1 level and price from the <a href="https://github.com/warpuppies/wardogs-data" style="color:var(--amber)">wardogs-data</a> game files (build 25677108); music tapes are left out because they were reshuffled. Unlock prices ($k) are role track unlocks; vendor prices are per-match purchase costs.</div>
+  <div class="wrap">Unofficial fan reference compiled from the official WARDOGS Season 2 patch notes. Track unlocks the patch notes don't mention are filled in at their Season 1 level and price from the <a href="https://github.com/warpuppies/wardogs-data" style="color:var(--amber)">wardogs-data</a> game files (build 25677108); music tapes are left out because they were reshuffled. Item icons come from the same files and belong to the game's developer and publisher; items new in Season 2 don't have one yet. Unlock prices ($k) are role track unlocks; vendor prices are per-match purchase costs.</div>
 </footer>
 <div class="hazard"></div>
 <a class="top" href="#top">▲ TOP</a>
@@ -1168,6 +1172,61 @@ const ROLES = [
 ];
 // keep: unlocks the patch notes don't touch, at their Season 1 level [level, name, price $k]
 for (const r of ROLES) for (const [l,n,p] of r.keep || []) r.items.push({n,t:"u",l,p});
+// item icons (icons/<file>.webp) from the wardogs-data game files; S2-only items have none yet
+const ICONS = {
+  "Tricon 1.5x Compact Prism Scope":"sght_026","Spitfire 3X":"sght_024","Mechanical Supply Pallet":"supply_mech_palette","Ammo Supply Pallet":"supply_ammo_palette",
+  "Fuel Supply Pallet":"supply_fuel_palette","Judge":"weapon_judge_textured_512x256_inv","GGX 17":"wepn_010","Deagle":"wepn_027",
+  "GGX 18":"wepn_032","Kobra Reflex":"sght_009","Compact T-2 Red Dot":"sght_013","Sport Parachute":"parachute_sport",
+  "12g Rifled Slug":"ammobox_12g_slug_green","7.62x39mm Armor Piercing (AP)":"ammobox_7_62x39mm_ap",".308 Win Flesh Damage (HP)":"ammobox_308_hp","Level 3 Helmet & Armor":"helmet_003",
+  "5.45x39mm Flesh Damage (HP)":"ammobox_5_45x39_hp","9x19mm Flesh Damage (HP)":"ammobox_9x19mm_hp","5.56mm Flesh Damage (HP)":"ammobox_5_56x45mm_hp","5.56mm Armor Piercing (AP)":"ammobox_5_56x45mm_ap",
+  "5.45x39mm Armor Piercing (AP)":"ammobox_5_45x39_ap","Level 1 Armor":"armor_001","Level 1 Helmet":"helmet_001","7.62x39mm Flesh Damage (HP)":"ammobox_7_62x39mm_hp",
+  "Field Backpack":"backpack_005","Medium Tac Vest":"utility_mediumwebbing_textured","RK6 Tactical Foregrip":"fgrp_001","Medium Backpack":"mediumbackpack",
+  "GGX 33 RND Magazine":"magz_012",".45 Colt Flesh Damage (HP)":"ammobox_45colt_hp","7.62x54mmR Flesh Damage (HP)":"ammobox_7_62x54r_hp","Level 2 Armor":"armor_002",
+  "Level 2 Helmet":"helmet_002","Assault Backpack":"backpack_008","45° Angled Foregrip":"fgrp_016","Mini Angled Foregrip":"fgrp_018",
+  "M1911 + M1911 7 RND Magazine":"wepn_026",".45 ACP Pistol Compensator":"muzl_050","High Capacity Battery":"drill_batterylarge",".45 ACP Flesh Damage (HP)":"ammobox_45acp_hp",
+  "Large Tac Vest":"utility_largewebbing_textured","M1911 10 RND Magazine":"magz_063","Large Backpack":"largebackpack","TDG Vertical Foregrip":"fgrp_002",
+  "Large Backpack + Sling":"backpack_006","9x19mm Armor Piercing (AP)":"ammobox_9x19mm_ap","GGX 50 RND Drum Magazine":"magz_011","7.62x54mmR Armor Piercing (AP)":"ammobox_7_62x54r_ap",
+  ".50 AE Flesh Damage (HP)":"ammobox_50ae_hp","Level 4 Armor":"armor_004","Level 4 Helmet":"helmet_004",".45 Colt Armor Piercing (AP)":"ammobox_45colt_ap",
+  ".45 ACP Armor Piercing (AP)":"ammobox_45acp_ap",".50 AE Armor Piercing (AP)":"ammobox_50ae_ap",".308 Win Armor Piercing (AP)":"ammobox_308_ap","Large Backpack + 2 Slings":"backpack_007",
+  "Remote Detonator + C4 Charge":"c42","2.5x Combat Optic":"sght_008","Four Reticle Reflex":"sght_016","3x Tactical Prism Scope":"sght_029",
+  "RVG Vertical Foregrip":"fgrp_006","Spectr 4x":"sght_001","AK74 + AK74 30 RND Magazine":"wepn_001v2","T-21":"wepn_005",
+  "STANAG 30 RND Magazine":"magz_stanag","M4":"wepn_002","FAL":"wepn_030","AK74 75 RND Drum Magazine":"magz_015",
+  "Birdcage Flash Hider":"muzl_039","Hexagon Brake":"muzl_024","3 Prong Flash Hider":"mzl_013","CQ-2x Prism Combat Scope":"sght_028",
+  "CQR Tactical Front Rail Grip":"fgrp_014","CQB 74 Brake":"muzl_015","PBS-4 Suppressor":"muzl_009","TopComp Brake":"muzl_014",
+  "RC-556 Suppressor":"muzl_032","OKP 7 Reflex":"sght_023","TGP-A Suppressor 5.45":"muzl_010","AR Multi-Caliber Suppressor":"muzl_007",
+  "Galil + Galil 35 RND Magazine":"wepn_029","Rubberized Ergonomic Foregrip":"fgrp_015","Galil 50 RND Magazine":"magz_060","AK74 60 RND Magazine":"magz_016",
+  "STANAG 60 RND Magazine":"magz_054","3-Chamber Brake":"muzl_027","Shift Foregrip":"fgrp_007","FAL 30 RND Magazine":"magz_024",
+  "AMP-9 + AMP-9 15 RND Magazine":"wepn_014","AMP-9 20 RND Magazine":"magz_052","Holographic Sight":"sght_005","AFG Angled Foregrip":"fgrp_003",
+  "MP5":"wepn_028","Medical Bag":"medkit","PP-19 Vityaz":"wepn_023","Defibrillator":"utility_defib",
+  "Super-45":"wepn_006","Individual First Aid Kit":"utility_superbandage_textured","Adrenaline Pen":"item_stim","M18 Smoke Grenade: Black":"utility_smoke_textured_black",
+  "Eclipse Flash Hider":"muzl_037","MP5 30 RND Magazine":"magz_004","Ballista Brake":"muzl_020","QD-5 Suppressor":"muzl_058",
+  "PP-19 Vityaz 10 RND Magazine":"magz_059","PP-19 Vityaz Flash Hider":"muzl_054","Vektor Frenix-X Micro Reflex Sight":"sght_027","PP-19 50 RND Vityaz Drum Magazine":"magz_046",
+  "PP-19-01 Vityaz 9x19 Suppressor":"muzl_053","AMP-9 Tactical Flash Hider":"muzl_052","AMP-9 9x19 Suppressor":"muzl_051","Dual Port Brake":"muzl_019",
+  "MP5 50 RND Drum Magazine":"magz_056","AMP-9 30 RND Magazine":"magz_043","Super-45 Flash Hider":"muzl_046","Ghost LITE Muzzle Brake":"muzl_047",
+  "Super-45 30 RND Magazine":"magz_008","AMP-9 50 RND Drum Magazine":"magz_066","Field Resuscitator":"enox","M18 Smoke Grenade: White":"utility_smoke_textured_512x512_temp",
+  "SG Multi-Caliber Suppressor":"muzl_005","Super-45 40 RND Drum Magazine":"magz_055","BMR-308":"weapon_rfb","SV98":"wepn_008",
+  "MK22":"wepn_018","Ghillie Headwear & Body Suit":"ghillie_body","Ghillie Headwear & Body Suit (Dead)":"ghilliebody_dead","Compound Bow":"weapon_bow",
+  "Claymore":"claymore2","Range Finder":"rangefinder_1","SVD 10 RND Magazine":"magz_svdm","Deadeye Flash Hider":"muzl_037_",
+  "DTK-1 Brake":"muzl_028","6-10x Scope MOA":"attachment_10x_optic_textured","SV98 Bipod":"fgrp_009","SRVV Brake":"muzl_041",
+  "BMR-308 Flash Hider":"muzl_055","6-10x Scope MRAD":"attachment_10x_optic_textured","BMR-308 Suppressor":"muzl_056","Constrictor Brake":"muzl_022",
+  "AMR 50 Cal Muzzle Brake":"muzl_048","6x Marksman Scope + Reflex":"sght_036","Slicktap Brake":"muzl_025","Frontier 2.5x-10x Precision Scope":"sght_032",
+  ".50 Cal Heavy Suppressor":"muzl_049","Three Port Brake":"muzl_030","Monocular":"monocle_temp","STRELIX Suppressor":"muzl_062",
+  "SKS":"wepn_007","SKS Bipod":"fgrp_008","Mosin Nagant":"wepn_017","1x-6x LPVO Short Dot":"sght_011",
+  "SVD + SVD 5 RND Magazine":"wepn_015","SVD 7.62x54R Brake":"muzl_040","SVD Bipod":"fgrp_008","Hexagon 762 Suppressor":"muzl_008",
+  "Infrared Range Finder":"rangefinderir","AMR 50 + AMR 50 5 RND Magazine":"wepn_024","MK22 Standard Mag":"magz_mk22","Flow-Through .308 Suppressor":"muzl_057",
+  "GOL Multi-Caliber Suppressor":"muzl_004","Pro Tilt Bipod":"fgrp_009","AMR 50 10 RND Magazine":"magz_026","4x Combat Prism Scope with Reflex":"sght_030",
+  "PKM":"wepn_019","M249":"wepn_009","MAAWS":"wepn_013","MGL-40":"wepn_012",
+  "Heavy Drill":"drill_heavy","9K333 Verba":"wepn_025","Improved Cylinder Choke":"muzl_044","Full Choke":"muzl_045",
+  "PKM Bipod":"fgrp_008","Slotted Flash Hider":"muzl_038","M249 Bipod":"fgrp_008","M249 200 RND Box":"magz_038",
+  "Tread Brake":"muzl_023","12 Gauge Suppressor":"muzl_006","Light Drill":"drill_medium","Medium Hammer":"build2a",
+  "RPG-7 + 93mm":"wepn_022","Large Hammer":"build3","M500":"wepn_011","M500 Sabre Brake":"muzl_031",
+  "PGO-7":"sght_034","AT Mine":"atmine2","Orpheus Max Brake":"muzl_029","Grip Pod":"fgrp_004",
+  "Little Bird AH-6M [Miniguns]":"littlebird_guns","Z20 Lakota [Miniguns]":"rot_4_minigun","Havoc":"havoc","Small Armoured Supply Crate":"id_item_vehiclesupplycrate_small_armoured",
+  "Z20 Lakota":"rot_4","Large Armoured Supply Crate":"id_item_vehiclesupplycrate_large_armoured","AH-6R [Rockets]":"littlebird_3","Flakpanzer Gepard":"gepard",
+  "SPH-2":"pvtank_temp","Dune Buggy":"vehicle_dunebuggy","Humvee":"transport_humvee_temp","Ural Defender":"ural_2",
+  "Large Crate":"id_item_vehiclesupplycrate_large","Ural Defender [M249]":"ural_3","Humvee [M249]":"vehicle_humvee_gun","Ural":"ural",
+  "Kodiak [M249]":"kodiak_machinegun","Kodiak [Pickup]":"kodiak_pickup","Humvee [Minigun]":"vehicle_humvee_gun","L2A6":"vehicle_hvy_tank_textured"
+};
 
 const money = v =>v === 0 ? "Free" : "$" + v + "k";
 const lvlTxt = v => v === 0 ? "Default" : "LVL " + v;
@@ -1197,7 +1256,9 @@ function rowHTML(it){
   const lc = it.l === 0 ? "def" : it.l == null ? "unk" : "";
   const ln = it.l === 0 ? "DEF" : it.l == null ? "—" : it.l;
   const tag = {n:"New",m:"Moved in",c:"Changed",u:"Unchanged"}[it.t];
+  const ico = ICONS[it.n] ? `<img src="icons/${ICONS[it.n]}.webp" alt="" loading="lazy" width="64" height="32">` : "";
   return `<li class="row${it.t === "u" ? " row-u" : ""}"><div class="lvl ${lc}"><span class="lvl-k">LVL</span><span class="lvl-n">${ln}</span></div>
+    <div class="ico">${ico}</div>
     <div><div class="name">${esc(it.n)} <span class="tag tag-${it.t}">${tag}</span></div>
     ${meta.filter(Boolean).length ? `<div class="meta">${meta.filter(Boolean).map(m=>`<span>${m}</span>`).join("")}</div>` : ""}</div>
     <div class="price">${it.p != null ? money(it.p) : ""}</div></li>`;
